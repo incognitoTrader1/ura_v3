@@ -28,8 +28,8 @@ export const MobileNavIcon = [
   {
     id: 4,
     icon: MessageCircle,
-    label: "Comment",
-    href: "/dashboard/comments",
+    label: "Message",
+    href: "/messages",
   },
   {
     id: 5,

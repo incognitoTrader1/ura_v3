@@ -33,3 +33,10 @@ export const addProductSchema = z.object({
   price: z.number().min(1, { message: "Price must be at least 1" }),
   image: z.string().url({ message: "Invalid image URL" }),
 });
+
+export const messageSchema = z.object({
+  content: z
+    .string()
+    .min(1, { message: "Message content is required." })
+    .max(500, { message: "Message content must be at most 500 characters." }),
+});
