@@ -1,8 +1,8 @@
 import {
+  BookmarkIcon,
   CirclePlus,
   House,
   MessageCircle,
-  Search,
   UserRound,
 } from "lucide-react";
 
@@ -15,9 +15,9 @@ export const MobileNavIcon = [
   },
   {
     id: 2,
-    icon: Search,
-    label: "Search",
-    href: "/dashboard/search",
+    icon: BookmarkIcon,
+    label: "Bookmarks",
+    href: "/dashboard/bookmarks",
   },
   {
     id: 3,

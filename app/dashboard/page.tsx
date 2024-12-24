@@ -9,7 +9,7 @@ async function page() {
 
   console.log("User:", user);
   return (
-    <div>
+    <div className="space-y-2 bg-slate-100 pt-8 pb-2 h-full overflow-y-auto">
       <HomeHeader />
       <DashBoardProduct business={business} />
     </div>

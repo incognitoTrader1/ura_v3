@@ -9,7 +9,7 @@ import { UserAvatar } from "../userAvatar/Avatar";
 function HomeHeader() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center bg-white p-4 border rounded-lg">
       <UserAvatar />
       <Button onClick={() => setIsOpen(true)}>
         <Plus className="mr-2 w-4 h-4" /> Make a post

@@ -1,10 +1,11 @@
-import { EllipsisVertical } from "lucide-react";
-import Image from "next/image";
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+
 import { Button } from "../ui/button";
 import PhotoCard from "./PhotoCard";
 import { relativeDateFn } from "@/lib/fn";
-import Link from "next/link";
+import EllipseMenu from "./EllipseMenu";
 
 interface Business {
   id: string;
@@ -38,7 +39,7 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-4 pt-8">
+    <div className="flex flex-col gap-4 bg-white p-4 border rounded-lg">
       {business.map((business) => (
         <div key={business.id} className="space-y-3 w-full">
           <div className="flex justify-between">
@@ -57,7 +58,7 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
                 </p>
               </div>
             </div>
-            <EllipsisVertical />
+            <EllipseMenu bookmarkId={business.id} />
           </div>
           <div className="flex flex-col gap-1">
             <p className="leading-none">New collection alert</p>

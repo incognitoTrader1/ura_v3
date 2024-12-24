@@ -31,6 +31,7 @@ model User {
   sessions         Session[]
   businesses       Business[]
   products         Product[]
+  bookmarks        Bookmark[]
   reviews          Review[]
   sentMessages     Message[]  @relation("SentMessages")
   receivedMessages Message[]  @relation("ReceivedMessages")
@@ -96,34 +97,48 @@ model Authenticator {
 }
 
 model Business {
-  id          String    @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   address     String?
   phone       String?
   imageUrl    String?
   description String?
   hours       String?
-  rating      Float     @default(0)
+  rating      Float      @default(0)
   userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   products    Product[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Bookmark    Bookmark[]
+}
+
+model Bookmark {
+  id         String    @id @default(cuid())
+  productId  String?
+  product    Product?  @relation(fields: [productId], references: [id])
+  businessId String?
+  business   Business? @relation(fields: [businessId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Product {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   description String
   price       Float
   imageUrl    String
   businessId  String
-  business    Business @relation(fields: [businessId], references: [id])
+  business    Business   @relation(fields: [businessId], references: [id])
   userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   reviews     Review[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  bookmarks   Bookmark[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Review {
