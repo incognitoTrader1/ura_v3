@@ -53,6 +53,7 @@ export async function addProduct(values: z.infer<typeof addProductSchema>) {
       data: {
         name: user.firstName || user.username || "My Business", // Fallback name
         userId: user.id,
+        imageUrl: user.imageUrl || "",
       },
     });
 
@@ -75,6 +76,21 @@ export async function addProduct(values: z.infer<typeof addProductSchema>) {
     return { success: "Product added successfully", product };
   } catch (error) {
     console.error("Error adding product:", error);
+    return { error: "Something went wrong" };
+  }
+}
+
+export async function getProductById(id: string) {
+  try {
+    const product = await prisma.product.findUnique({
+      where: { id },
+      include: {
+        business: true,
+      },
+    });
+    return product;
+  } catch (error) {
+    console.error("Error getting product:", error);
     return { error: "Something went wrong" };
   }
 }

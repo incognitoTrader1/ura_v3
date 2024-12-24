@@ -25,7 +25,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 
-import { addProduct } from "@/actions/addProduct";
+import { addProduct } from "@/actions/productActions";
 import { addProductSchema } from "@/schema/zodSchema";
 
 interface AddModalProps {

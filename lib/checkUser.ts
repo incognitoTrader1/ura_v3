@@ -20,6 +20,7 @@ export const checkUser = async () => {
       name: user.fullName || user.username || "",
       image: user.imageUrl || "",
       role: "USER",
+      online: true,
     },
   });
 

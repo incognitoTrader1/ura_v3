@@ -1,6 +1,9 @@
+"use client";
+
+import { SignedIn, useClerk } from "@clerk/nextjs";
+
 import { Button, buttonVariants } from "../ui/button";
 import { VariantProps } from "class-variance-authority";
-import { SignedOut } from "@clerk/nextjs";
 
 interface LogoutProps {
   className?: string;
@@ -10,21 +13,29 @@ interface LogoutProps {
   iconClassName?: string;
 }
 
-function Logout({
+const Logout: React.FC<LogoutProps> = ({
   className,
   icon,
   text,
   variant,
   iconClassName,
-}: LogoutProps) {
+}) => {
+  const { signOut } = useClerk();
+
   return (
-    <SignedOut>
-      <Button type="submit" className={className} variant={variant}>
-        {icon && <span className={iconClassName}>{icon}</span>}
-        {text}
-      </Button>
-    </SignedOut>
+    <>
+      <SignedIn>
+        <Button
+          className={className}
+          variant={variant}
+          onClick={() => signOut({ redirectUrl: "/" })}
+        >
+          {icon && <span className={iconClassName}>{icon}</span>}
+          {text}
+        </Button>
+      </SignedIn>
+    </>
   );
-}
+};
 
 export default Logout;

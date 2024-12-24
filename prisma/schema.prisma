@@ -24,6 +24,8 @@ model User {
   password         String?
   image            String?
   role             UserRole   @default(USER)
+  online           Boolean    @default(false)
+  rating           Float      @default(0)
   businessId       String?
   accounts         Account[]
   sessions         Session[]
@@ -94,14 +96,19 @@ model Authenticator {
 }
 
 model Business {
-  id       String    @id @default(cuid())
-  name     String
-  address  String?
-  phone    String?
-  hours    String?
-  userId   String
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products Product[]
+  id          String    @id @default(cuid())
+  name        String
+  address     String?
+  phone       String?
+  imageUrl    String?
+  description String?
+  hours       String?
+  rating      Float     @default(0)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Product {
@@ -115,6 +122,8 @@ model Product {
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   reviews     Review[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Review {
@@ -122,6 +131,7 @@ model Review {
   rating    Float
   comment   String
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   productId String
@@ -132,6 +142,7 @@ model Message {
   id         String   @id @default(cuid())
   content    String
   sentAt     DateTime @default(now())
+  updatedAt  DateTime @updatedAt
   senderId   String
   receiverId String
   sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)

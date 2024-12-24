@@ -5,6 +5,7 @@ import {
   HelpCircle,
   LogOut,
 } from "lucide-react";
+import { SignedIn } from "@clerk/nextjs";
 
 import {
   Sidebar,
@@ -51,28 +52,28 @@ export function AppSidebar() {
             Application{" "}
           </SidebarGroupLabel> */}
           <UserProfile />
-          <div className="flex flex-col justify-between">
-            <SidebarGroupContent>
-              <SidebarMenu className="flex flex-col gap-3 mt-6">
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>
-                        <item.icon className="font-bold text-3xl text-orange-500" />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-            <Logout
-              className="flex items-center w-full"
-              iconClassName="text-orange-500"
-              icon={<LogOut />}
-              text="Sign Out"
-            />
-          </div>
+          <SidebarGroupContent>
+            <SidebarMenu className="flex flex-col gap-3 mt-6">
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url}>
+                      <item.icon className="font-bold text-3xl text-orange-500" />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+              <SignedIn>
+                <Logout
+                  className="flex items-center w-full"
+                  iconClassName="text-orange-500"
+                  icon={<LogOut />}
+                  text="Sign Out"
+                />
+              </SignedIn>
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
