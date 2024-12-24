@@ -38,3 +38,24 @@ export const MobileNavIcon = [
     href: "/dashboard/profile",
   },
 ];
+
+export const HomeNavIcon = [
+  {
+    id: 1,
+    icon: House,
+    label: "Home",
+    href: "/",
+  },
+  {
+    id: 2,
+    icon: BookmarkIcon,
+    label: "Write a Review",
+    href: "/review",
+  },
+  {
+    id: 3,
+    icon: CirclePlus,
+    label: "add",
+    href: "/market",
+  },
+];
