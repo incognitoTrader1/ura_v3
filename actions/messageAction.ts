@@ -33,37 +33,31 @@ export async function getAUserMessage(receiverId: string) {
   try {
     const user = await currentUser();
 
+    // Check if the user is authenticated
     if (!user) {
       return { error: "Unauthorized" };
     }
 
-    const receiverMsg = await prisma.message.findMany({
-      where: {
-        senderId: user.id,
-        receiverId,
-      },
-    });
-
-    const receiver = await prisma.user.findUnique({
-      where: {
-        id: receiverId,
-      },
-      include: {
-        receivedMessages: true,
-        sentMessages: true,
-      },
-    });
-
+    // Fetch the messages between the current user and the specified receiver
     const messages = await prisma.message.findMany({
       where: {
-        receiverId,
-        senderId: user.id,
+        OR: [
+          { senderId: user.id, receiverId },
+          { senderId: receiverId, receiverId: user.id },
+        ],
+      },
+      include: {
+        sender: true,
+        receiver: true,
+      },
+      orderBy: {
+        sentAt: "asc", // Sort the messages by sentAt timestamp
       },
     });
 
-    return { success: "Fetch Messages", messages, receiver, receiverMsg };
+    return { success: "Fetched messages", messages };
   } catch (error) {
-    console.error("Error getting message:", error);
+    console.error("Error fetching user messages:", error);
     return { error: "Something went wrong" };
   }
 }
@@ -74,15 +68,10 @@ export async function sendMessage(
 ) {
   try {
     const user = await currentUser();
-
-    if (!user) {
-      return { error: "Unauthorized" };
-    }
+    if (!user) return { error: "Unauthorized" };
 
     const parsedValues = messageSchema.safeParse(values);
-    if (!parsedValues.success) {
-      return { error: "Invalid field" };
-    }
+    if (!parsedValues.success) return { error: "Invalid field" };
 
     const { content } = parsedValues.data;
 
@@ -94,20 +83,10 @@ export async function sendMessage(
       },
     });
 
-    const reverseMessage = await prisma.message.create({
-      data: {
-        content,
-        senderId: receiverId,
-        receiverId: user.id,
-      },
-    });
-
     revalidatePath("/messages/*");
-    return { success: "message sent", message, reverseMessage };
+    return { success: "Message sent", message };
   } catch (error) {
-    console.log(error);
-    return {
-      error: "Something went wrong",
-    };
+    console.error("Error sending message:", error);
+    return { error: "Something went wrong" };
   }
 }

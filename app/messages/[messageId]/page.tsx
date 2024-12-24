@@ -9,35 +9,26 @@ import { relativeDateFn } from "@/lib/fn";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ messageId: string }>;
+  params: { messageId: string };
 }) {
-  const messageId = (await params).messageId;
+  const messageId = params.messageId;
   const user = await currentUser();
-
   const msg = await getAUserMessage(messageId);
 
-  if ("error" in msg!) {
+  if ("error" in msg) {
     return <div>Error: {msg.error}</div>;
   }
 
-  console.log(msg);
-
-  const combinedMessages = [
-    ...(msg.receiver?.receivedMessages || []).map((message) => ({
-      ...message,
-      type: "received",
-    })),
-    ...(msg.receiver?.sentMessages || []).map((message) => ({
-      ...message,
-      type: "sent",
-    })),
-  ];
+  const combinedMessages = msg.messages.map((message) => ({
+    ...message,
+    type: message.senderId === user?.id ? "sent" : "received",
+  }));
 
   const sortedMessages = combinedMessages.sort(
     (a, b) => new Date(a.sentAt).getTime() - new Date(b.sentAt).getTime()
   );
 
-  console.log("Sorted Combined Messages:", sortedMessages);
+  const receiver = msg.messages[0]?.receiver;
 
   return (
     <div className="flex flex-col justify-between bg-white min-h-dvh">
@@ -45,13 +36,13 @@ export default async function Page({
       <div className="flex flex-col gap-8 p-5 h-full">
         <div className="flex flex-col items-center gap-3">
           <Image
-            src={msg.receiver?.image || ""}
-            alt={msg.receiver?.name || ""}
+            src={receiver?.image || ""}
+            alt={receiver?.name || ""}
             className="rounded-full w-24 h-24 object-cover"
             width={500}
             height={500}
           />
-          <p className="font-semibold">{msg.receiver?.name}</p>
+          <p className="font-semibold">{receiver?.name}</p>
         </div>
 
         <div className="flex flex-col gap-4">
