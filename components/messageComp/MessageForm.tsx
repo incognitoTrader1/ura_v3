@@ -29,7 +29,6 @@ function MessageForm({ recieverId }: { recieverId: string }) {
   });
 
   function onSubmit(values: z.infer<typeof messageSchema>) {
-    console.log(values, recieverId);
     startTransition(() => {
       sendMessage(values, recieverId).then((res) => {
         if (res.error) {
