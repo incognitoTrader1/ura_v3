@@ -14,7 +14,7 @@ export default function PhotoCard({ src, title, price, id }: Props) {
   const router = useRouter();
   return (
     <div
-      className="flex flex-col bg-white border w-full cursor-pointer"
+      className="flex flex-col bg-white border rounded-lg w-full cursor-pointer overflow-hidden"
       onClick={() => {
         router.push(`/dashboard/products/${id}`);
       }}

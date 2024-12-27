@@ -35,7 +35,7 @@ export const MobileNavIcon = [
     id: 5,
     icon: UserRound,
     label: "Profile",
-    href: "/dashboard/profile",
+    href: "/profile",
   },
 ];
 

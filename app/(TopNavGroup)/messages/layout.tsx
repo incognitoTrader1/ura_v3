@@ -1,6 +1,5 @@
 import { getAllUsers } from "@/actions/userAction";
 import MessageCard from "@/components/messageComp/MessageCard";
-import AppNav from "@/components/nav/AppNav";
 import React from "react";
 
 interface LayoutProps {
@@ -17,18 +16,15 @@ async function Layout({ children }: LayoutProps) {
   }
 
   return (
-    <div className="">
-      <AppNav />
-      <div className="flex w-full">
-        <div className="flex flex-col p-4 border-r rounded w-full max-w-[380px] h-full min-h-dvh">
-          <div className="flex flex-col mx-auto h-full container">
-            {allUsers.map((user) => (
-              <MessageCard key={user.id} user={user} />
-            ))}
-          </div>
+    <div className="flex w-full max-h-[calc(100vh-4rem)]">
+      <div className="flex flex-col p-4 border-r rounded w-full max-w-[380px] h-full">
+        <div className="flex flex-col mx-auto h-full container">
+          {allUsers.map((user) => (
+            <MessageCard key={user.id} user={user} />
+          ))}
         </div>
-        <div className="relative flex flex-col w-full">{children}</div>
       </div>
+      <div className="relative flex flex-col w-full">{children}</div>
     </div>
   );
 }

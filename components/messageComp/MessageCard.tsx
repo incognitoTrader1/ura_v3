@@ -40,9 +40,9 @@ const MessageCard = ({ user }: MessageCardProps) => {
           width={40}
           height={40}
         />
-        <div>
+        <div className="md:flex flex-col hidden">
           <h3>{user.name || "Anonymous"}</h3>
-          <p>{user.email}</p>
+          <p className="truncate">{user.email}</p>
         </div>
       </div>
       <Separator />

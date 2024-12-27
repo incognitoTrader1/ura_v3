@@ -6,8 +6,7 @@ import MessageForm from "@/components/messageComp/MessageForm";
 import { getAUserMessage } from "@/actions/messageAction";
 import Image from "next/image";
 import { currentUser } from "@clerk/nextjs/server";
-import { relativeDateFn } from "@/lib/fn";
-import { headers } from "next/headers";
+import { getUserById, relativeDateFn } from "@/lib/fn";
 
 export type paramsType = Promise<{ messageId: string }>;
 
@@ -15,10 +14,7 @@ export default async function Page(props: { params: paramsType }) {
   const { messageId } = await props.params;
   const user = await currentUser();
   const msg = await getAUserMessage(messageId);
-
-  const headersList = await headers();
-  const referer = headersList.get("referer");
-  console.log(referer);
+  const receiverDetails = await getUserById(messageId);
 
   // Ensure msg has the expected structure
   if (!msg || !Array.isArray(msg.messages)) {
@@ -34,21 +30,21 @@ export default async function Page(props: { params: paramsType }) {
     (a, b) => new Date(a.sentAt).getTime() - new Date(b.sentAt).getTime()
   );
 
-  const receiver = msg.messages[0]?.receiver;
+  // const receiver = msg.messages[0]?.receiver;
 
   return (
-    <div className="flex flex-col justify-between bg-white min-h-dvh">
+    <div className="flex flex-col justify-between bg-white h-max-h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] overflow-y-auto">
       <TopNav />
-      <div className="flex flex-col gap-8 p-5 h-full">
+      <div className="flex flex-col gap-8 p-5 h-full min-h-[calc(100vh-12rem)] overflow-y-auto">
         <div className="flex flex-col items-center gap-3">
           <Image
-            src={receiver?.image || ""}
-            alt={receiver?.name || ""}
+            src={receiverDetails?.image || ""}
+            alt={receiverDetails?.name || ""}
             className="rounded-full w-24 h-24 object-cover"
             width={500}
             height={500}
           />
-          <p className="font-semibold">{receiver?.name}</p>
+          <p className="font-semibold">{receiverDetails?.name}</p>
         </div>
 
         <div className="flex flex-col gap-4">
@@ -69,7 +65,7 @@ export default async function Page(props: { params: paramsType }) {
           ))}
         </div>
       </div>
-      <div className="p-4">
+      <div className="bottom-0 sticky p-4">
         <MessageForm recieverId={messageId} />
       </div>
     </div>

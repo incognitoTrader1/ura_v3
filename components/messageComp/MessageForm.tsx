@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { messageSchema } from "@/schema/zodSchema";
 import { sendMessage } from "@/actions/messageAction";
 import { toast } from "sonner";
+import { Send } from "lucide-react";
 
 function MessageForm({ recieverId }: { recieverId: string }) {
   const [isPending, startTransition] = useTransition();
@@ -35,6 +36,7 @@ function MessageForm({ recieverId }: { recieverId: string }) {
           toast.error("Error sending message, retry again!");
         } else if (res.success) {
           toast.success("Message sent");
+          form.reset();
         }
       });
     });
@@ -42,7 +44,11 @@ function MessageForm({ recieverId }: { recieverId: string }) {
 
   return (
     <>
-      {isPending && <p>loading...</p>}
+      {isPending && (
+        <div className="flex justify-end items-center pr-12 pb-4">
+          <div className="dots" />
+        </div>
+      )}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -60,8 +66,8 @@ function MessageForm({ recieverId }: { recieverId: string }) {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isPending}>
-            Send message
+          <Button type="submit" variant="uraOrange" disabled={isPending}>
+            <Send />
           </Button>
         </form>
       </Form>

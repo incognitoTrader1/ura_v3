@@ -59,7 +59,7 @@ export default function TopNav({ title }: Props) {
   }
   if (pathname === "/message") {
     return (
-      <div className="top-0 sticky flex flex-col bg-orange-500 p-5 text-white">
+      <div className="top-0 sticky flex flex-col bg-[#FB5404] p-5 text-white">
         <div className="flex justify-between items-center gap-16">
           <div className="flex justify-between items-center gap-3 bg-white p-3 rounded-xl w-full text-slate-900">
             <input

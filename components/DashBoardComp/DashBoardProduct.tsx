@@ -39,7 +39,7 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-8 bg-white p-4 border rounded-lg">
+    <div className="flex flex-col gap-12 bg-white p-4 border rounded-lg">
       {business.map((business) => (
         <div key={business.id} className="space-y-3 w-full">
           <div className="flex justify-between">
@@ -75,7 +75,7 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
               />
             ))}
           </div>
-          <Button className="bg-orange-500 w-full" asChild>
+          <Button className="w-full" asChild variant="uraOrange">
             <Link href={`/dashboard/business/${business.id}`}>
               View Profile
             </Link>
