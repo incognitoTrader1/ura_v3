@@ -45,7 +45,10 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="floating" className="bg-slate-100 pt-20 border-none">
+    <Sidebar
+      variant="floating"
+      className="bg-red-300 pt-20 border-none w-[20rem]"
+    >
       <SidebarContent className="rounded-lg">
         <SidebarGroup>
           {/* <SidebarGroupLabel className="text-xl">

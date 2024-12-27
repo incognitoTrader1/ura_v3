@@ -37,7 +37,7 @@ export default async function Home() {
           <div className="flex flex-col justify-center items-center gap-4 w-full h-full">
             <h1 className="font-bold text-5xl">
               Welcome to <span className="text-orange-500">Ura</span>, Where
-              Businesses Thrive! Welcome to{" "}
+              Businesses Thrive!
             </h1>
             <p className="text-2xl text-slate-100">
               Thrive, Grow & Succeed with your business

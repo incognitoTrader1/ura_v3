@@ -18,7 +18,7 @@ function UserProfile() {
           </p>
         </div>
       </div>
-      <Separator />
+      <Separator className="bg-slate-300" />
     </div>
   );
 }
