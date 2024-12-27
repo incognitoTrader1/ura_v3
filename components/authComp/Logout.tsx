@@ -31,7 +31,7 @@ const Logout: React.FC<LogoutProps> = ({
           onClick={() => signOut({ redirectUrl: "/" })}
         >
           {icon && <span className={iconClassName}>{icon}</span>}
-          {text}
+          <p className="md:block hidden">{text}</p>
         </Button>
       </SignedIn>
     </>
