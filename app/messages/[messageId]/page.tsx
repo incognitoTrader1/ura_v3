@@ -6,11 +6,10 @@ import Image from "next/image";
 import { currentUser } from "@clerk/nextjs/server";
 import { relativeDateFn } from "@/lib/fn";
 
-type tParams = Promise<{ slug: string[] }>;
+export type paramsType = Promise<{ messageId: string }>;
 
-export default async function Page(props: { params: tParams }) {
-  const { slug } = await props.params;
-  const messageId = slug[1];
+export default async function Page(props: { params: paramsType }) {
+  const { messageId } = await props.params;
   const user = await currentUser();
   const msg = await getAUserMessage(messageId);
 
