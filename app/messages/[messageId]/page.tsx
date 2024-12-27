@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from "react";
 import TopNav from "@/components/nav/TopNav";
 import MessageForm from "@/components/messageComp/MessageForm";
@@ -5,6 +7,7 @@ import { getAUserMessage } from "@/actions/messageAction";
 import Image from "next/image";
 import { currentUser } from "@clerk/nextjs/server";
 import { relativeDateFn } from "@/lib/fn";
+import { headers } from "next/headers";
 
 export type paramsType = Promise<{ messageId: string }>;
 
@@ -13,8 +16,13 @@ export default async function Page(props: { params: paramsType }) {
   const user = await currentUser();
   const msg = await getAUserMessage(messageId);
 
-  if ("error" in msg) {
-    return <div>Error: {msg.error}</div>;
+  const headersList = await headers();
+  const referer = headersList.get("referer");
+  console.log(referer);
+
+  // Ensure msg has the expected structure
+  if (!msg || !Array.isArray(msg.messages)) {
+    return <p>Error fetching messages.</p>;
   }
 
   const combinedMessages = msg.messages.map((message) => ({

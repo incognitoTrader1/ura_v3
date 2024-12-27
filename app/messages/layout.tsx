@@ -3,11 +3,17 @@ import MessageCard from "@/components/messageComp/MessageCard";
 import AppNav from "@/components/nav/AppNav";
 import React from "react";
 
-async function layout({ children }: { children: React.ReactNode }) {
-  const allUser = await getAllUsers();
+interface LayoutProps {
+  children: React.ReactNode;
+}
 
-  if ("error" in allUser!) {
-    return <div>Error: {allUser.error}</div>;
+export const dynamic = "force-dynamic";
+
+async function Layout({ children }: LayoutProps) {
+  const allUsers = await getAllUsers();
+
+  if (!allUsers || "error" in allUsers) {
+    return <div>Error: {allUsers?.error || "Failed to load users"}</div>;
   }
 
   return (
@@ -16,7 +22,7 @@ async function layout({ children }: { children: React.ReactNode }) {
       <div className="flex w-full">
         <div className="flex flex-col p-4 border-r rounded w-full max-w-[380px] h-full min-h-dvh">
           <div className="flex flex-col mx-auto h-full container">
-            {allUser?.map((user) => (
+            {allUsers.map((user) => (
               <MessageCard key={user.id} user={user} />
             ))}
           </div>
@@ -27,4 +33,4 @@ async function layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default layout;
+export default Layout;
