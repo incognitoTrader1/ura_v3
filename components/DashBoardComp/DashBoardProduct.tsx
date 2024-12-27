@@ -39,7 +39,7 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-4 bg-white p-4 border rounded-lg">
+    <div className="flex flex-col gap-8 bg-white p-4 border rounded-lg">
       {business.map((business) => (
         <div key={business.id} className="space-y-3 w-full">
           <div className="flex justify-between">
