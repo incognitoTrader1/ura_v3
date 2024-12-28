@@ -49,13 +49,13 @@ export default async function page({
   console.log(product);
 
   return (
-    <div className="min-h-dvh">
+    <div className="space-y-2 bg-slate-100 w-full h-full overflow-y-auto">
       <TopNav />
       <div className="flex flex-col gap-3 p-5 w-full">
         <Image
           src={product.imageUrl}
           alt={product.name}
-          className="rounded-lg w-full h-40 object-cover"
+          className="rounded-lg w-full h-96 object-cover"
           width={500}
           height={500}
         />

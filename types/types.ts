@@ -25,3 +25,20 @@ export interface IUser {
   sentMessages: []; // Adjust type based on your message structure
   receivedMessages: []; // Adjust type based on your message structure
 }
+
+export interface IBusiness {
+  id: string;
+  name: string;
+  imageUrl: string | null;
+  description: string | null;
+  tagline: string | null;
+  reviews: number;
+  rating: number;
+  products: {
+    id: string;
+    price: number;
+    // ... other product fields
+  }[];
+}
+
+export type TBusinessResponse = IBusiness | { error: string };

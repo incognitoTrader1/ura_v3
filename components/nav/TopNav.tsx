@@ -83,7 +83,7 @@ export default function TopNav({ title }: Props) {
     <nav className="top-0 sticky flex justify-between items-center bg-orange-500 p-5 text-white">
       <ChevronLeft
         size={28}
-        className="text-white"
+        className="text-white cursor-pointer"
         onClick={() => router.back()}
       />
       <h1 className="font-display text-xl capitalize">{title}</h1>

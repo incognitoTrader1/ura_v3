@@ -103,6 +103,8 @@ model Business {
   phone       String?
   imageUrl    String?
   description String?
+  tagline     String?
+  location    String?
   hours       String?
   rating      Float      @default(0)
   userId      String
