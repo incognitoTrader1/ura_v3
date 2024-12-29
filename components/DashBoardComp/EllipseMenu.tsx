@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Bookmark, EllipsisVertical, Loader2 } from "lucide-react";
+import { Bookmark, EllipsisVertical, Loader2, Star } from "lucide-react";
 import { useTransition } from "react";
+import Link from "next/link";
 
 import {
   Tooltip,
@@ -75,7 +76,7 @@ function EllipseMenu({ bookmarkId }: EllipseMenuProps) {
           </Tooltip>
         </TooltipProvider>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-40">
+      <DropdownMenuContent className="mr-8 w-40">
         <DropdownMenuLabel>Menu</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
@@ -99,6 +100,17 @@ function EllipseMenu({ bookmarkId }: EllipseMenuProps) {
             )}
             <p>Bookmark</p>
           </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link
+            href={`/dashboard/business/${bookmarkId}`}
+            className="flex items-center gap-4"
+          >
+            <div className="flex items-center gap-4">
+              <Star className="text-slate-800" />
+              <p>Rate business</p>
+            </div>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
