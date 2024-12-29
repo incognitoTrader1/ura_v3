@@ -1,5 +1,6 @@
 import HomeLinks from "@/components/nav/HomeLinks";
 import Logo from "@/components/shared/Logo";
+import { Button } from "@/components/ui/button";
 import {
   SignInButton,
   SignUpButton,
@@ -7,6 +8,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import Link from "next/link";
 
 export default async function Home() {
   return (
@@ -36,12 +38,18 @@ export default async function Home() {
         <div className="flex flex-col justify-center items-center bg-slate-500/20 w-full h-dvh">
           <div className="flex flex-col justify-center items-center gap-4 w-full h-full">
             <h1 className="font-bold text-5xl">
-              Welcome to <span className="text-orange-500">Ura</span>, Where
-              Businesses Thrive!
+              Welcome to <span className="text-orange-500">Ura</span>, a market
+              social
             </h1>
             <p className="text-2xl text-slate-100">
-              Thrive, Grow & Succeed with your business
+              centric platform designed to aid small scale business social media
+              business scale
             </p>
+            <div className="flex justify-center items-center gap-4">
+              <Button variant="uraOrange" asChild>
+                <Link href="/dashboard">Get Started</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>

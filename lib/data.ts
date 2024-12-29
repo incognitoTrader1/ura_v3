@@ -49,8 +49,8 @@ export const HomeNavIcon = [
   {
     id: 2,
     icon: BookmarkIcon,
-    label: "Write a Review",
-    href: "/review",
+    label: "Find Business",
+    href: "/dashboard",
   },
   {
     id: 3,
