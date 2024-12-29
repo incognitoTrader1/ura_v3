@@ -40,7 +40,7 @@ export default async function Home() {
         className={`flex w-full h-full bg-custom-bg bg-cover bg-no-repeat bg-center min-h-dvh`}
       >
         <div className="flex flex-col justify-center items-center bg-slate-500/20 w-full h-dvh">
-          <div className="flex flex-col justify-center items-center gap-4 w-full h-full">
+          <div className="flex flex-col justify-center items-center gap-6 w-full h-full">
             <h1 className="font-bold text-5xl">
               Welcome to <span className="text-orange-500">Ura</span>, a market
               social

@@ -23,12 +23,6 @@ export async function getBusinessById(id: string) {
 
 export async function getBusiness() {
   try {
-    const user = await currentUser();
-
-    if (!user) {
-      return { error: "Unauthorized" };
-    }
-
     const business = await prisma.business.findMany({
       include: {
         products: true,
