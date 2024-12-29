@@ -26,6 +26,12 @@ export const addBookmark = async (bookmarkId: string) => {
 
 export const removeBookmark = async (bookmarkId: string) => {
   try {
+    const user = await currentUser();
+
+    if (!user) {
+      return { error: "Unauthorized" };
+    }
+
     await prisma.bookmark.delete({
       where: { id: bookmarkId },
     });
