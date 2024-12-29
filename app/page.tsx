@@ -22,10 +22,14 @@ export default async function Home() {
 
         <div className="flex items-center gap-2">
           <SignedOut>
-            <SignInButton />
+            <Button variant="default" asChild>
+              <SignInButton />
+            </Button>
           </SignedOut>
           <SignedOut>
-            <SignUpButton />
+            <Button variant="secondary" asChild>
+              <SignUpButton />
+            </Button>
           </SignedOut>
           <SignedIn>
             <UserButton />
@@ -46,8 +50,8 @@ export default async function Home() {
               business scale
             </p>
             <div className="flex justify-center items-center gap-4">
-              <Button variant="uraOrange" asChild>
-                <Link href="/dashboard">Get Started</Link>
+              <Button variant="uraOrange" size="lg" asChild>
+                <Link href="/dashboard">Explore</Link>
               </Button>
             </div>
           </div>
