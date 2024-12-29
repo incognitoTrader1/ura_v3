@@ -40,3 +40,26 @@ export const messageSchema = z.object({
     .min(1, { message: "Message content is required." })
     .max(500, { message: "Message content must be at most 500 characters." }),
 });
+
+export const updateBusinessSchema = z.object({
+  businessId: z.string(),
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  tagline: z.string().min(2, {
+    message: "Tagline must be at least 2 characters.",
+  }),
+  description: z.string().min(2, {
+    message: "Description must be at least 2 characters.",
+  }),
+  phone: z.string().min(2, {
+    message: "Phone must be at least 2 characters.",
+  }),
+  address: z.string().min(2, {
+    message: "Address must be at least 2 characters.",
+  }),
+  hours: z.string().min(2, {
+    message: "Hours must be at least 2 characters.",
+  }),
+  website: z.string().url({ message: "Invalid website URL" }),
+});

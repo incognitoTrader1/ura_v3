@@ -21,23 +21,15 @@ import {
 import { Button } from "../ui/button";
 import { updateBusiness } from "@/actions/businessAction";
 import { toast } from "sonner";
+import { updateBusinessSchema } from "@/schema/zodSchema";
 
-export const updateBusinessSchema = z.object({
-  businessId: z.string(),
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  tagline: z.string().min(2, {
-    message: "Tagline must be at least 2 characters.",
-  }),
-  description: z.string().min(2, {
-    message: "Description must be at least 2 characters.",
-  }),
-});
-
+import { useUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import { Textarea } from "../ui/textarea";
 function BusinessHeader({ business }: { business: IBusiness }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const { user, isLoaded, isSignedIn } = useUser();
 
   const form = useForm<z.infer<typeof updateBusinessSchema>>({
     resolver: zodResolver(updateBusinessSchema),
@@ -46,6 +38,10 @@ function BusinessHeader({ business }: { business: IBusiness }) {
       name: business?.name || "",
       tagline: business?.tagline || "",
       description: business?.description || "",
+      phone: business?.phone || "",
+      address: business?.address || "",
+      hours: business?.hours || "",
+      website: business?.website || "",
     },
   });
 
@@ -61,36 +57,62 @@ function BusinessHeader({ business }: { business: IBusiness }) {
     });
   }
 
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isSignedIn) {
+    return redirect("/sign-in");
+  }
+
+  const isOwner = user?.id === business?.userId;
+
   return (
     <>
       <div className="relative flex flex-col justify-center items-center gap-3 bg-gradient-to-t from-orange-400 to-orange-600 rounded-lg w-full min-h-96">
         <Image
           src={business?.imageUrl || ""}
           alt={business?.name || ""}
-          className="shadow-lg rounded-full w-40 h-40 object-cover"
+          className="border-2 border-orange-500 shadow-lg p-1 rounded-full w-40 h-40 object-cover"
           width={500}
           height={500}
         />
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col justify-center items-center gap-1">
           <h2 className="font-bold font-primary text-2xl leading-none">
             {business?.name}
           </h2>
           <p className="text-sm text-white">{business?.tagline}</p>
+          <p className="text-sm text-white">
+            Opens {business?.hours || "Not fixed"}
+          </p>
+          <p className="text-sm text-white">
+            <span className="font-bold">Phone:</span>{" "}
+            {business?.phone || "Not fixed"}
+          </p>
+          <p className="text-sm text-white">
+            <span className="font-bold">Address:</span>{" "}
+            {business?.address || "Not fixed"}
+          </p>
         </div>
-        <Edit
-          className="top-5 right-5 absolute"
-          onClick={() => {
-            setIsEdit(!isEdit);
-          }}
-        />
+        {isOwner && (
+          <Edit
+            className="top-5 right-5 absolute"
+            onClick={() => {
+              setIsEdit(!isEdit);
+            }}
+          />
+        )}
       </div>
       <Dialog open={isEdit} onOpenChange={setIsEdit}>
-        <DialogContent>
+        <DialogContent className="w-full">
           <DialogHeader>
             <DialogTitle>Edit Business</DialogTitle>
           </DialogHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="gap-4 grid grid-cols-2"
+            >
               <FormField
                 control={form.control}
                 name="name"
@@ -119,12 +141,68 @@ function BusinessHeader({ business }: { business: IBusiness }) {
               />
               <FormField
                 control={form.control}
-                name="description"
+                name="phone"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>Phone</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Business Phone" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Business Address" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Website</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Business Website" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="hours"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Hours</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Business Hours e.g Monday to Friday: 9:00 AM - 7:00 PM"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="col-span-2">
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Input placeholder="Business Description" {...field} />
+                      <Textarea placeholder="Business Description" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

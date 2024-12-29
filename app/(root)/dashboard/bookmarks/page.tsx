@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { getAllBookmarks } from "@/actions/bookmarkAction";
 import { Button } from "@/components/ui/button";
@@ -47,16 +47,16 @@ async function page() {
             </div>
           </div>
           {bookmark.business && (
-            <Button>
+            <Button variant="uraOrange" asChild>
               <Link href={`/dashboard/business/${bookmark.business.id}`}>
                 View Profile
               </Link>
             </Button>
           )}
           {bookmark.product && (
-            <Button>
+            <Button variant="uraOrange" asChild>
               <Link href={`/dashboard/products/${bookmark.product.id}`}>
-                View Profile
+                View Product
               </Link>
             </Button>
           )}

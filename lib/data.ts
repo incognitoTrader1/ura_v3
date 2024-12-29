@@ -1,10 +1,4 @@
-import {
-  BookmarkIcon,
-  CirclePlus,
-  House,
-  MessageCircle,
-  UserRound,
-} from "lucide-react";
+import { BookmarkIcon, CirclePlus, House, MessageCircle } from "lucide-react";
 
 export const MobileNavIcon = [
   {
@@ -30,12 +24,6 @@ export const MobileNavIcon = [
     icon: MessageCircle,
     label: "Message",
     href: "/messages",
-  },
-  {
-    id: 5,
-    icon: UserRound,
-    label: "Profile",
-    href: "/profile",
   },
 ];
 

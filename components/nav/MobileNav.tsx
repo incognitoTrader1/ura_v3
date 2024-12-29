@@ -5,9 +5,12 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { MobileNavIcon } from "@/lib/data";
+import { UserRound } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 
 export default function MobileNav() {
   const pathName = usePathname();
+  const { user, isLoaded, isSignedIn } = useUser();
 
   return (
     <div className="flex items-center gap-8">
@@ -21,6 +24,11 @@ export default function MobileNav() {
           />
         </Link>
       ))}
+      {isLoaded && isSignedIn && (
+        <Link href={`/dashboard/profile/${user?.id}`}>
+          <UserRound className="w-6 h-6 text-slate-200 transition duration-300" />
+        </Link>
+      )}
     </div>
   );
 }

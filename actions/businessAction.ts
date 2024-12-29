@@ -1,10 +1,10 @@
 "use server";
 
-import { updateBusinessSchema } from "@/components/header/BusinessHeader";
 import prisma from "@/lib/db";
 import * as z from "zod";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { updateBusinessSchema } from "@/schema/zodSchema";
 
 export async function getBusinessById(id: string) {
   try {
@@ -27,6 +27,9 @@ export async function getBusiness() {
       include: {
         products: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     return business;
@@ -44,6 +47,15 @@ export async function updateBusiness(
 
     if (!user) {
       return { error: "Unauthorized" };
+    }
+
+    const updaterId = await prisma.business.findUnique({
+      where: { id: values.businessId },
+      select: { userId: true },
+    });
+
+    if (user.id !== updaterId?.userId) {
+      return { error: "You are not authorized to update this business" };
     }
 
     const parsedValues = updateBusinessSchema.safeParse(values);

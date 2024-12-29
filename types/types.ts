@@ -34,10 +34,24 @@ export interface IBusiness {
   tagline: string | null;
   reviews: number;
   rating: number;
+  userId: string;
+  hours: string | null;
+  location: string | null;
+  address: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  phone: string | null;
+  website: string | null;
   products: {
     id: string;
     price: number;
-    // ... other product fields
+    name: string;
+    imageUrl: string;
+    description: string;
+    businessId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    userId: string;
   }[];
 }
 
