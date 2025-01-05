@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns";
 
-import { TUser } from "@/types/types";
+import { IRating, TUser } from "@/types/types";
 import prisma from "./db";
 
 export const getUserByEmail = async (email: string): Promise<TUser | null> => {
@@ -38,4 +38,16 @@ export function formatPrice(price: number) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
+}
+
+export function calculateAverageRating(ratings: IRating[]): number {
+  if (ratings.length === 0) return 0;
+
+  const totalSum = ratings.reduce(
+    (sum, ratingObj) => sum + ratingObj.rating,
+    0
+  );
+  const average = totalSum / ratings.length;
+
+  return average;
 }

@@ -63,3 +63,7 @@ export const updateBusinessSchema = z.object({
   }),
   website: z.string().url({ message: "Invalid website URL" }),
 });
+
+export const rateBusinessSchema = z.object({
+  rating: z.number().min(1, { message: "Rating must be at least 1" }),
+});

@@ -2,13 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import TopNav from "@/components/nav/TopNav";
-import { getStarRepresentation } from "@/components/shared/getStarRating";
 import { getBusinessById } from "@/actions/businessAction";
 import BusinessHeader from "@/components/header/BusinessHeader";
 import { TBusinessResponse } from "@/types/types";
 import { currentUser } from "@clerk/nextjs/server";
 import HomeHeader from "@/components/header/HomeHeader";
 import PhotoCard from "@/components/DashBoardComp/PhotoCard";
+import RateBusiness from "@/components/RateBusiness";
+import { getStarRepresentation } from "@/components/shared/getStarRating";
+import { calculateAverageRating } from "@/lib/fn";
 
 export default async function page({
   params,
@@ -22,11 +24,17 @@ export default async function page({
     return <div>Error: {business.error}</div>;
   }
 
-  console.log(business);
+  console.log("business single page: ", business);
+
+  console.log("business ratings: ", business.ratings);
 
   const user = await currentUser();
 
   const showRating = user?.id !== business?.userId;
+
+  const averageRating = calculateAverageRating(business.ratings);
+
+  console.log("Average Rating", averageRating);
 
   return (
     <div className="space-y-2 bg-slate-100 w-full h-full overflow-y-auto no-scrollbar">
@@ -61,11 +69,14 @@ export default async function page({
           </div>
         </div>
         {showRating && (
-          <div className="flex items-center gap-2 font-medium text-sm">
-            <span className="flex">
-              {getStarRepresentation(business?.rating)}
-            </span>
-            <span>{business?.rating || 0} ratings</span>
+          <div className="flex justify-between items-center gap-5">
+            <div className="flex items-center gap-2 font-medium text-sm">
+              <span className="flex">
+                {getStarRepresentation(averageRating)}
+              </span>
+              <span>{averageRating || 0} ratings</span>
+            </div>
+            <RateBusiness businessId={businessId} />
           </div>
         )}
 

@@ -25,6 +25,12 @@ export interface IUser {
   sentMessages: []; // Adjust type based on your message structure
   receivedMessages: []; // Adjust type based on your message structure
 }
+export type TRating = {
+  id: string;
+  rating: number;
+  userId: string;
+  businessId: string;
+};
 
 export interface IBusiness {
   id: string;
@@ -53,6 +59,15 @@ export interface IBusiness {
     updatedAt: Date;
     userId: string;
   }[];
+  ratings: TRating[];
 }
 
 export type TBusinessResponse = IBusiness | { error: string };
+
+export interface IRating {
+  id: string;
+  rating: number;
+  userId: string;
+  businessId: string;
+  // createdAt:
+}

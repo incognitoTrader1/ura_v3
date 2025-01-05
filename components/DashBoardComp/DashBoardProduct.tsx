@@ -33,7 +33,7 @@ interface DashBoardProductProps {
 }
 
 const DashBoardProduct = ({ business }: DashBoardProductProps) => {
-  console.log(business);
+  console.log("dashboard business listing", business);
   if ("error" in business) {
     return <div>Error: {business.error}</div>;
   }
@@ -45,7 +45,7 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
           <div className="flex justify-between">
             <div className="flex gap-3">
               <Image
-                src={business.products[0].imageUrl}
+                src={business.imageUrl || ""}
                 alt={business.name}
                 className="rounded-full w-12 h-12 object-cover"
                 width={500}
