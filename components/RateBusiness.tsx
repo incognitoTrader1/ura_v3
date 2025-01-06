@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { rateBusiness } from "@/actions/businessAction";
+import { Loader2 } from "lucide-react";
 
 function RateBusiness({ businessId }: { businessId: string }) {
   const [isPending, startTransition] = useTransition();
@@ -42,7 +43,7 @@ function RateBusiness({ businessId }: { businessId: string }) {
     form.handleSubmit(onSubmit)(); // Submit the form
   };
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <Loader2 className="animate-spin" />;
 
   return (
     <Form {...form}>

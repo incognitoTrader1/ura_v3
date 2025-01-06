@@ -5,7 +5,7 @@ function layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex justify-center gap-4 bg-slate-100 mt-16 p-4 w-full h-[calc(100vh-4rem)]">
       <Sidebar />
-      <main className="flex bg-slate-100 rounded-lg w-full h-full">
+      <main className="flex bg-slate-100 rounded-lg w-full h-full max-h-min">
         {children}
       </main>
     </div>

@@ -4,7 +4,11 @@ import prisma from "@/lib/db";
 import * as z from "zod";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-import { rateBusinessSchema, updateBusinessSchema } from "@/schema/zodSchema";
+import {
+  rateBusinessSchema,
+  reviewFormSchema,
+  updateBusinessSchema,
+} from "@/schema/zodSchema";
 
 export async function getBusinessById(id: string) {
   try {
@@ -13,6 +17,7 @@ export async function getBusinessById(id: string) {
       include: {
         products: true,
         ratings: true,
+        reviews: true,
       },
     });
     return business;
@@ -118,6 +123,45 @@ export async function rateBusiness(
     revalidatePath(`/dashboard/business/${businessId}`);
 
     return { success: "Rating updated", ratingArray };
+  } catch (error) {
+    console.error("Error rating business:", error);
+    return { error: "Failed to rate business" };
+  }
+}
+
+export async function reviewBusiness(
+  values: z.infer<typeof reviewFormSchema>,
+  businessId: string,
+  senderImg: string | undefined,
+  senderName: string
+) {
+  try {
+    const user = await currentUser();
+    if (!user) return { error: "Unauthorized" };
+
+    const parsedValues = reviewFormSchema.safeParse(values);
+    if (!parsedValues.success) {
+      return { error: parsedValues.error.errors };
+    }
+
+    if (!businessId) return { error: "No business" };
+    if (!senderImg) return { error: "No sender image" };
+
+    const { review } = parsedValues.data;
+
+    const reviewArray = await prisma.review.create({
+      data: {
+        comment: review,
+        userId: user.id,
+        businessId: businessId,
+        senderImg,
+        senderName,
+      },
+    });
+
+    revalidatePath(`/dashboard/business/${businessId}`);
+
+    return { success: "Review updated", reviewArray };
   } catch (error) {
     console.error("Error rating business:", error);
     return { error: "Failed to rate business" };

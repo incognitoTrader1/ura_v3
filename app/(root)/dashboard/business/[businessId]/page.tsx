@@ -1,16 +1,18 @@
-import { Button } from "@/components/ui/button";
+import { currentUser } from "@clerk/nextjs/server";
+
 import { Separator } from "@/components/ui/separator";
 
 import TopNav from "@/components/nav/TopNav";
 import { getBusinessById } from "@/actions/businessAction";
 import BusinessHeader from "@/components/header/BusinessHeader";
 import { TBusinessResponse } from "@/types/types";
-import { currentUser } from "@clerk/nextjs/server";
 import HomeHeader from "@/components/header/HomeHeader";
 import PhotoCard from "@/components/DashBoardComp/PhotoCard";
 import RateBusiness from "@/components/RateBusiness";
 import { getStarRepresentation } from "@/components/shared/getStarRating";
 import { calculateAverageRating } from "@/lib/fn";
+import LeaveAReview from "@/components/review/LeaveAReview";
+import ReviewListing from "@/components/review/ReviewListing";
 
 export default async function page({
   params,
@@ -24,17 +26,14 @@ export default async function page({
     return <div>Error: {business.error}</div>;
   }
 
-  console.log("business single page: ", business);
-
-  console.log("business ratings: ", business.ratings);
-
   const user = await currentUser();
+  const currentUserName = `${user?.firstName} ${user?.lastName || ""}`;
 
   const showRating = user?.id !== business?.userId;
 
   const averageRating = calculateAverageRating(business.ratings);
 
-  console.log("Average Rating", averageRating);
+  const reviews = Array.isArray(business.reviews) ? business.reviews : [];
 
   return (
     <div className="space-y-2 bg-slate-100 w-full h-full overflow-y-auto no-scrollbar">
@@ -80,9 +79,12 @@ export default async function page({
           </div>
         )}
 
-        <Button variant="uraOrange" className="max-w-fit">
-          Send Message
-        </Button>
+        <LeaveAReview
+          businessId={businessId}
+          senderImg={user?.imageUrl}
+          senderName={currentUserName}
+        />
+        <ReviewListing reviews={reviews} />
         <Separator />
         <div className="flex gap-2">
           <p className="">Business Information</p>

@@ -67,3 +67,9 @@ export const updateBusinessSchema = z.object({
 export const rateBusinessSchema = z.object({
   rating: z.number().min(1, { message: "Rating must be at least 1" }),
 });
+
+export const reviewFormSchema = z.object({
+  review: z.string().min(1, {
+    message: "Review must be at least a character.",
+  }),
+});

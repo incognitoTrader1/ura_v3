@@ -1,3 +1,5 @@
+import { ReviewsProps } from "@/components/review/ReviewListing";
+
 export type TUser = {
   id: string;
   name: string | null;
@@ -38,7 +40,7 @@ export interface IBusiness {
   imageUrl: string | null;
   description: string | null;
   tagline: string | null;
-  reviews: number;
+  reviews: ReviewsProps;
   rating: number;
   userId: string;
   hours: string | null;
