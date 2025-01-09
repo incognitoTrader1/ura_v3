@@ -41,6 +41,18 @@ export const messageSchema = z.object({
     .max(500, { message: "Message content must be at most 500 characters." }),
 });
 
+// Define the location schema
+const LocationSchema = z.object({
+  lat: z
+    .number()
+    .min(-90)
+    .max(90, { message: "Latitude must be between -90 and 90." }),
+  lng: z
+    .number()
+    .min(-180)
+    .max(180, { message: "Longitude must be between -180 and 180." }),
+});
+
 export const updateBusinessSchema = z.object({
   businessId: z.string(),
   name: z.string().min(2, {
@@ -62,6 +74,7 @@ export const updateBusinessSchema = z.object({
     message: "Hours must be at least 2 characters.",
   }),
   website: z.string().url({ message: "Invalid website URL" }),
+  location: LocationSchema,
 });
 
 export const rateBusinessSchema = z.object({

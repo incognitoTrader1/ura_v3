@@ -32,6 +32,7 @@ model User {
   businesses       Business[]
   products         Product[]
   bookmarks        Bookmark[]
+  likes            Likes[]
   reviews          Review[]
   sentMessages     Message[]  @relation("SentMessages")
   receivedMessages Message[]  @relation("ReceivedMessages")
@@ -109,6 +110,7 @@ model Business {
   website     String?
   userId      String
   user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  location    Json?
 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -131,19 +133,33 @@ model Bookmark {
 }
 
 model Product {
-  id          String     @id @default(cuid())
+  id          String @id @default(cuid())
   name        String
   description String
   price       Float
   imageUrl    String
   businessId  String
-  business    Business   @relation(fields: [businessId], references: [id])
-  userId      String
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reviews     Review[]
-  bookmarks   Bookmark[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+
+  business Business @relation(fields: [businessId], references: [id])
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  likes     Likes[]
+  reviews   Review[]
+  bookmarks Bookmark[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Likes {
+  id        String   @id @default(cuid())
+  likes     Int      @default(0)
+  productId String
+  Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Rating {

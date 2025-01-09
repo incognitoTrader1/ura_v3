@@ -44,7 +44,10 @@ export interface IBusiness {
   rating: number;
   userId: string;
   hours: string | null;
-  location: string | null;
+  location?: {
+    lat?: number;
+    lng?: number;
+  };
   address: string | null;
   createdAt: Date;
   updatedAt: Date;

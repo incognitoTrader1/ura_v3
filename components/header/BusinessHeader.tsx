@@ -42,6 +42,15 @@ function BusinessHeader({ business }: { business: IBusiness }) {
       address: business?.address || "",
       hours: business?.hours || "",
       website: business?.website || "",
+      location: business?.location
+        ? {
+            lat: business.location.lat,
+            lng: business.location.lng,
+          }
+        : {
+            lat: 0,
+            lng: 0,
+          },
     },
   });
 
@@ -189,6 +198,45 @@ function BusinessHeader({ business }: { business: IBusiness }) {
                       <Input
                         placeholder="Business Hours e.g Monday to Friday: 9:00 AM - 7:00 PM"
                         {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="location.lat" // Accessing latitude in nested structure
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Latitude</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number" // Ensure it's a number input
+                        placeholder="Enter Latitude"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        value={field.value}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="location.lng" // Accessing longitude in nested structure
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Longitude</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number" // Ensure it's a number input
+                        placeholder="Enter Longitude"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        value={field.value}
                       />
                     </FormControl>
                     <FormMessage />

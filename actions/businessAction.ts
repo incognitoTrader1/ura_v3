@@ -69,7 +69,17 @@ export async function updateBusiness(
       return { error: parsedValues.error.errors };
     }
 
-    const { businessId, name, tagline, description } = parsedValues.data;
+    const {
+      businessId,
+      name,
+      tagline,
+      description,
+      address,
+      hours,
+      location,
+      phone,
+      website,
+    } = parsedValues.data;
 
     const business = await prisma.business.update({
       where: { id: businessId },
@@ -77,6 +87,11 @@ export async function updateBusiness(
         name,
         tagline,
         description,
+        address,
+        hours,
+        location,
+        phone,
+        website,
       },
     });
 

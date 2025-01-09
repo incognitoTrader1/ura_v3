@@ -13,6 +13,7 @@ import { getStarRepresentation } from "@/components/shared/getStarRating";
 import { calculateAverageRating } from "@/lib/fn";
 import LeaveAReview from "@/components/review/LeaveAReview";
 import ReviewListing from "@/components/review/ReviewListing";
+import Map from "@/components/shared/Map";
 
 export default async function page({
   params,
@@ -34,6 +35,13 @@ export default async function page({
   const averageRating = calculateAverageRating(business.ratings);
 
   const reviews = Array.isArray(business.reviews) ? business.reviews : [];
+
+  const location = {
+    lat: business.location?.lat || 9,
+    lng: business.location?.lng || 9,
+  };
+
+  console.log(business);
 
   return (
     <div className="space-y-2 bg-slate-100 w-full h-full overflow-y-auto no-scrollbar">
@@ -89,6 +97,7 @@ export default async function page({
         <div className="flex gap-2">
           <p className="">Business Information</p>
         </div>
+        <Map location={location} />
       </div>
     </div>
   );

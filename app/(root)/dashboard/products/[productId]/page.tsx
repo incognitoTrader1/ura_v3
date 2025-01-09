@@ -1,11 +1,11 @@
 import React from "react";
 import { getProductById } from "@/actions/productActions";
 import TopNav from "@/components/nav/TopNav";
-import { getStarRepresentation } from "@/components/shared/getStarRating";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/lib/fn";
 import Image from "next/image";
+import Likes from "@/components/Likes";
 
 interface Product {
   id: string;
@@ -13,6 +13,7 @@ interface Product {
   imageUrl: string;
   description: string;
   price: number;
+  likes: number;
   businessId: string;
   userId: string;
   createdAt: Date;
@@ -66,10 +67,7 @@ export default async function page({
           NGN {formatPrice(product.price)}
         </h2>
         <div className="flex items-center gap-2 font-medium text-sm">
-          <span className="flex">
-            {getStarRepresentation(product.business.rating)}
-          </span>
-          <span>{product.business.reviews} ratings</span>
+          <Likes productId={productId} />
         </div>
         {product.business.availability && <span>still available</span>}
         <Separator />
@@ -79,7 +77,7 @@ export default async function page({
         <Button>Send Message</Button>
         <Separator />
         <div className="flex gap-2">
-          <p className="">Business Information</p>
+          w<p className="">Business Information</p>
         </div>
       </div>
     </div>
