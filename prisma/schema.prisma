@@ -153,7 +153,6 @@ model Product {
 
 model Likes {
   id        String   @id @default(cuid())
-  likes     Int      @default(0)
   productId String
   Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
