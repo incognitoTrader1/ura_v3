@@ -21,49 +21,69 @@ export type TLikes = {
   userId: string;
 };
 
+export type TLikeEntry = {
+  productId: string;
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+};
+
 function Likes({ productId }: Props) {
   const [isPending, startTransition] = useTransition();
-  const [likeId, setLikeId] = useState<string[]>([]); // Changed to string[]
+  const [likeId, setLikeId] = useState<TLikeEntry[]>([]);
   const [likeLength, setLikeLength] = useState(0);
 
   useEffect(() => {
     const fetchLikes = async () => {
       const likes = await getLikes();
 
-      console.log(likes);
-      setLikeLength(likes?.length);
-      setLikeId(likes.map((b) => b.productId)); // Ensure productId is a string
+      if (likes) {
+        setLikeLength(likes.length);
+        setLikeId(likes); // Set the full like objects
+      }
     };
     fetchLikes();
   }, []);
 
   const handleLikes = async (productId: string) => {
-    const isLiked = likeId.includes(productId);
+    const likeEntry = likeId.find((like) => like.productId === productId);
+    const isLiked = !!likeEntry;
 
     if (isLiked) {
       startTransition(async () => {
-        await deleteLike(likeId[0]);
-        setLikeId((prev) => prev.filter((id) => id !== productId));
+        await deleteLike(productId, likeEntry.id);
+        setLikeId((prev) => prev.filter((like) => like.id !== likeEntry.id)); // Keep only valid likes
+        setLikeLength((prev) => prev - 1); // Decrease like count
         toast.success("Bookmark removed");
       });
     } else {
       startTransition(async () => {
-        await postLike(productId);
-        setLikeId((prev) => [...prev, productId]);
-        toast.success("Bookmark added");
+        const newLike = await postLike(productId);
+        if (newLike && !("error" in newLike)) {
+          // Check if newLike does not have an error property
+          setLikeId((prev) => [...prev, newLike]); // Add the new like object
+          setLikeLength((prev) => prev + 1); // Increase like count
+          toast.success("Bookmark added");
+        } else {
+          // Handle the error appropriately
+          toast.error("Failed to add bookmark");
+        }
       });
     }
   };
 
   return (
-    <div className="flex gap-1 justify-center items-center">
+    <div className="flex justify-center items-center gap-1">
       <Heart
         onClick={() => {
           handleLikes(productId);
         }}
         className={cn(
           "text-orange-800 cursor-pointer",
-          likeId.includes(productId) ? "fill-orange-500" : "fill-none",
+          likeId.some((like) => like.productId === productId)
+            ? "fill-orange-500"
+            : "fill-none",
           isPending && "opacity-50"
         )}
       />

@@ -60,14 +60,18 @@ export default async function page({
           width={500}
           height={500}
         />
-        <h2 className="font-bold font-primary text-2xl leading-none">
-          {product.name}
-        </h2>
-        <h2 className="-mt-1 font-bold font-primary text-xl leading-none">
-          NGN {formatPrice(product.price)}
-        </h2>
-        <div className="flex items-center gap-2 font-medium text-sm">
-          <Likes productId={productId} />
+        <div className="flex justify-between items-start">
+          <div className="flex flex-col gap-1">
+            <h2 className="font-bold font-primary text-2xl leading-none">
+              {product.name}
+            </h2>
+            <h2 className="-mt-1 font-primary font-semibold text-lg leading-none">
+              NGN {formatPrice(product.price)}
+            </h2>
+          </div>
+          <div className="flex items-center gap-2 font-medium text-sm">
+            <Likes productId={productId} />
+          </div>
         </div>
         {product.business.availability && <span>still available</span>}
         <Separator />
@@ -77,7 +81,7 @@ export default async function page({
         <Button>Send Message</Button>
         <Separator />
         <div className="flex gap-2">
-          w<p className="">Business Information</p>
+          <p className="">Business Information</p>
         </div>
       </div>
     </div>

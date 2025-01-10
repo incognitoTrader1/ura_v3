@@ -28,21 +28,23 @@ export const postLike = async (productId: string) => {
   }
 };
 
-export const deleteLike = async (id: string) => {
+export const deleteLike = async (productId: string, likeId: string) => {
   try {
     const user = await currentUser();
 
     if (!user) {
-      return { error: "Unauthorized" };
+      throw new Error("Unauthorized");
     }
 
     await prisma.likes.delete({
       where: {
-        id,
+        id: likeId,
+        productId,
       },
     });
   } catch (error) {
     console.log(error);
+    // Optionally throw the error or handle it in the calling function
   }
 };
 
