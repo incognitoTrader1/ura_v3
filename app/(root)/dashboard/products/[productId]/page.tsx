@@ -1,11 +1,17 @@
 import React from "react";
+import Image from "next/image";
+import { currentUser } from "@clerk/nextjs/server";
+
 import { getProductById } from "@/actions/productActions";
 import TopNav from "@/components/nav/TopNav";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/lib/fn";
-import Image from "next/image";
 import Likes from "@/components/Likes";
+import AddProductReview from "@/components/review/AddProductReview";
+import ReviewListing from "@/components/review/ReviewListing";
+import { Review } from "@/types/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FaUser } from "react-icons/fa6";
 
 interface Product {
   id: string;
@@ -14,6 +20,7 @@ interface Product {
   description: string;
   price: number;
   likes: number;
+  reviews: Review[];
   businessId: string;
   userId: string;
   createdAt: Date;
@@ -26,6 +33,9 @@ interface Product {
     availability: boolean;
     reviews: number;
     rating: number;
+    phone: string;
+    hours: string;
+    address: string;
   };
 }
 
@@ -38,6 +48,8 @@ export default async function page({
 }) {
   const productId = (await params).productId;
   const product = (await getProductById(productId)) as ProductResponse;
+  const user = await currentUser();
+  const currentUserName = `${user?.firstName} ${user?.lastName || ""}`;
 
   if (!product) {
     return <div>Product not found</div>;
@@ -46,6 +58,8 @@ export default async function page({
   if ("error" in product) {
     return <div>Error: {product.error}</div>;
   }
+
+  const reviews = Array.isArray(product.reviews) ? product.reviews : [];
 
   console.log(product);
 
@@ -73,15 +87,74 @@ export default async function page({
             <Likes productId={productId} />
           </div>
         </div>
-        {product.business.availability && <span>still available</span>}
-        <Separator />
         <p className="font-medium text-gray-600 text-lg">
           {product.description}
         </p>
-        <Button>Send Message</Button>
+        <Separator />
+        <AddProductReview
+          productId={productId}
+          senderImg={user?.imageUrl}
+          senderName={currentUserName}
+        />
+        <ReviewListing reviews={reviews} />
         <Separator />
         <div className="flex gap-2">
           <p className="">Business Information</p>
+        </div>
+        <div className="flex gap-4">
+          <div className="font-medium text-gray-600 text-lg">
+            {product.business.imageUrl && (
+              <div className="flex items-center gap-2">
+                <Avatar className="border-gray-100 border w-10 md:w-12 h-10 md:h-12">
+                  <AvatarImage
+                    src={product.business.imageUrl || ""}
+                    alt={product.business.name || ""}
+                    className="object-center object-cover"
+                  />
+                  <AvatarFallback className="bg-slate-300">
+                    <FaUser className="text-muted-foreground" />
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col">
+            {product.business.name && (
+              <p className="font-semibold text-gray-900 text-xl">
+                {product.business.name}
+              </p>
+            )}
+            {product.business.phone && (
+              <div className="flex items-center gap-1">
+                <span className="font-semibold text-gray-800 text-lg">
+                  Phone:
+                </span>
+                <p className="text-gray-600 text-lg">
+                  {product.business.phone}
+                </p>
+              </div>
+            )}
+            {product.business.hours && (
+              <div className="flex items-center gap-1">
+                <span className="font-semibold text-gray-800 text-lg">
+                  Hours:
+                </span>
+                <p className="text-gray-600 text-lg">
+                  {product.business.hours}
+                </p>
+              </div>
+            )}
+            {product.business.address && (
+              <div className="flex items-center gap-1">
+                <span className="font-semibold text-gray-800 text-lg">
+                  Address:
+                </span>
+                <p className="text-gray-600 text-lg">
+                  {product.business.address}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

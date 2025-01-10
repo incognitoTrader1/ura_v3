@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export const postLike = async (productId: string) => {
   try {
@@ -20,7 +21,7 @@ export const postLike = async (productId: string) => {
         productId,
       },
     });
-
+    revalidatePath(`/dashboard/products/${productId}`);
     return likeProduct;
   } catch (error) {
     console.log(error);
@@ -42,6 +43,7 @@ export const deleteLike = async (productId: string, likeId: string) => {
         productId,
       },
     });
+    revalidatePath(`/dashboard/products/${productId}`);
   } catch (error) {
     console.log(error);
     // Optionally throw the error or handle it in the calling function

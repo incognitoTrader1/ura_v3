@@ -34,6 +34,18 @@ export type TRating = {
   businessId: string;
 };
 
+export interface Review {
+  id: string;
+  comment: string;
+  createdAt: Date; // ISO string representation of Date
+  updatedAt: string; // ISO string representation of Date
+  userId: string;
+  businessId: string | null;
+  productId: string | null;
+  senderImg: string | null;
+  senderName: string | null;
+}
+
 export interface IBusiness {
   id: string;
   name: string;

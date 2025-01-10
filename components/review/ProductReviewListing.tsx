@@ -3,13 +3,24 @@
 import { relativeDateFn } from "@/lib/fn";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { FaUser } from "react-icons/fa6";
-import { Review } from "@/types/types";
+
+export interface Review {
+  id: string;
+  comment: string;
+  createdAt: Date; // ISO string representation of Date
+  updatedAt: string; // ISO string representation of Date
+  userId: string;
+  businessId: string | null;
+  productId: string | null;
+  senderImg: string | null;
+  senderName: string | null;
+}
 
 export interface ReviewsProps {
   reviews: Review[];
 }
 
-function ReviewListing({ reviews }: ReviewsProps) {
+function ProductReviewListing({ reviews }: ReviewsProps) {
   return (
     <div className="flex flex-col gap-2">
       {reviews.map((review) => (
@@ -46,4 +57,4 @@ function ReviewListing({ reviews }: ReviewsProps) {
   );
 }
 
-export default ReviewListing;
+export default ProductReviewListing;

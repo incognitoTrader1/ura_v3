@@ -1,11 +1,12 @@
 "use client";
 
-import { Edit, Loader2 } from "lucide-react";
+import { Edit, Loader2, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import Link from "next/link";
 
 import { IBusiness } from "@/types/types";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
@@ -102,7 +103,16 @@ function BusinessHeader({ business }: { business: IBusiness }) {
             <span className="font-bold">Address:</span>{" "}
             {business?.address || "Not fixed"}
           </p>
+          <p className="text-sm text-white">
+            <span className="font-bold">Website/Link:</span>{" "}
+            {business?.website && (
+              <Link href={business?.website}>
+                {business?.website || "Not fixed"}
+              </Link>
+            )}
+          </p>
         </div>
+
         {isOwner && (
           <Edit
             className="top-5 right-5 absolute"
@@ -110,6 +120,11 @@ function BusinessHeader({ business }: { business: IBusiness }) {
               setIsEdit(!isEdit);
             }}
           />
+        )}
+        {!isOwner && (
+          <Link href={`/messages/${business?.userId}`}>
+            <MessageCircle className="top-5 right-5 absolute text-white" />
+          </Link>
         )}
       </div>
       <Dialog open={isEdit} onOpenChange={setIsEdit}>
