@@ -27,6 +27,8 @@ import { toast } from "sonner";
 
 import { addProduct } from "@/actions/productActions";
 import { addProductSchema } from "@/schema/zodSchema";
+import { Textarea } from "../ui/textarea";
+import { categories } from "../nav/search/SearchFilter";
 
 interface AddModalProps {
   isOpen: boolean;
@@ -91,7 +93,7 @@ function AddModal({ isOpen, setIsOpen }: AddModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent>
+      <DialogContent className="w-full max-w-[550px] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add Products to your Collection</DialogTitle>
           <DialogDescription>
@@ -99,30 +101,17 @@ function AddModal({ isOpen, setIsOpen }: AddModalProps) {
             description, price, and image.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col gap-2">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="gap-2 grid grid-cols-2">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="col-span-1">
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
+                      <Input {...field} placeholder="Enter product name" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -132,7 +121,7 @@ function AddModal({ isOpen, setIsOpen }: AddModalProps) {
                 control={form.control}
                 name="price"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="col-span-1">
                     <FormLabel>Price</FormLabel>
                     <FormControl>
                       <Input
@@ -140,6 +129,22 @@ function AddModal({ isOpen, setIsOpen }: AddModalProps) {
                         {...field}
                         onChange={(e) => field.onChange(Number(e.target.value))}
                         value={field.value}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="col-span-2">
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        placeholder="Enter product description"
                       />
                     </FormControl>
                     <FormMessage />
@@ -170,31 +175,54 @@ function AddModal({ isOpen, setIsOpen }: AddModalProps) {
                           }}
                         />
                         {isUploading && <div>Uploading...</div>}
-                        {imagePreview && (
-                          <Image
-                            src={imagePreview}
-                            alt="Image Preview"
-                            width={200}
-                            height={200}
-                            className="mt-2 rounded-md object-cover"
-                          />
-                        )}
                       </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category</FormLabel>
+                    <FormControl>
+                      <select {...field} className="p-2 border rounded-md">
+                        <option value="">Select a category</option>
+                        {categories.map((category) => (
+                          <option key={category.label} value={category.value}>
+                            {category.label}
+                          </option>
+                        ))}
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {imagePreview && (
+                <div className="flex justify-center items-center rounded-lg max-h-24 overflow-hidden">
+                  <Image
+                    src={imagePreview}
+                    alt="Image Preview"
+                    width={200}
+                    height={200}
+                    className="mt-2 w-full object-cover"
+                  />
+                </div>
+              )}
               <Button
                 type="submit"
-                className="mt-4"
+                className="col-span-2 mt-4"
+                variant="uraOrange"
                 disabled={form.formState.isSubmitting || isUploading}
               >
                 {form.formState.isSubmitting ? "Adding..." : "Add Product"}
               </Button>
-            </form>
-          </Form>
-        </div>
+            </div>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

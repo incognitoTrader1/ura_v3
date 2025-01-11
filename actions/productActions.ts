@@ -20,7 +20,7 @@ export async function addProduct(values: z.infer<typeof addProductSchema>) {
       return { error: parsedValues.error.errors };
     }
 
-    const { name, description, price, image } = parsedValues.data;
+    const { name, description, price, image, category } = parsedValues.data;
 
     // First check if user has an associated business
     const business = await prisma.business.findFirst({
@@ -53,6 +53,7 @@ export async function addProduct(values: z.infer<typeof addProductSchema>) {
       data: {
         name: user.firstName || user.username || "My Business", // Fallback name
         userId: user.id,
+        categoryId: category,
         imageUrl: user.imageUrl || "",
       },
     });

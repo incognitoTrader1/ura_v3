@@ -32,6 +32,7 @@ export const addProductSchema = z.object({
     .min(2, { message: "Description must be at least 2 characters" }),
   price: z.number().min(1, { message: "Price must be at least 1" }),
   image: z.string().url({ message: "Invalid image URL" }),
+  category: z.string().min(1, { message: "Category is required" }),
 });
 
 export const messageSchema = z.object({

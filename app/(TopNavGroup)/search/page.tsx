@@ -1,13 +1,12 @@
 import SearchFilter from "@/components/nav/search/SearchFilter";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: { query: string };
+export default async function Page(props: {
+  searchParams?: Promise<{
+    query?: string;
+  }>;
 }) {
-  const { query } = (await searchParams) || { query: "" };
-
-  // const business = await getBusiness(query, { category: "", address: "" });
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || "";
 
   return <SearchFilter query={query} />;
 }
