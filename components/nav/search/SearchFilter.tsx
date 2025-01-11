@@ -35,38 +35,46 @@ export interface DashBoardProductProps {
   business: IBusiness[] | { error: string };
 }
 
-const categories = [
-  "All",
-  "Food",
-  "Clothing",
-  "Electronics",
-  "Health",
-  "Beauty",
-  "Sports",
+// Define categories from the document
+export const categories = [
+  { label: "Jollof Rice", value: "jollof_rice" },
+  { label: "Amala & Ewedu", value: "amala_ewedu" },
+  { label: "Egusi Soup", value: "egusi_soup" },
+  { label: "Grilled Fish", value: "grilled_fish" },
+  { label: "Shawarma", value: "shawarma" },
+  { label: "Pizza", value: "pizza" },
+  { label: "Burgers", value: "burgers" },
+  { label: "Suya", value: "suya" },
+  { label: "Ice Cream", value: "ice_cream" },
+  { label: "Bakeries", value: "bakeries" },
+  { label: "Nigerian Cuisine", value: "nigerian_cuisine" },
+  { label: "Continental Cuisine", value: "continental_cuisine" },
+  { label: "Chinese Cuisine", value: "chinese_cuisine" },
+  { label: "Indian Cuisine", value: "indian_cuisine" },
+  { label: "Fast Food", value: "fast_food" },
+  { label: "Vegetarian", value: "vegetarian" },
+  { label: "Vegan", value: "vegan" },
+  { label: "Fine Dining", value: "fine_dining" },
+  { label: "Casual Dining", value: "casual_dining" },
+  { label: "Fast Casual", value: "fast_casual" },
+  { label: "Street Food", value: "street_food" },
+  { label: "Cafes", value: "cafe" },
+  { label: "Bars", value: "bar" },
+  { label: "Ice Cream Parlors", value: "ice_cream_parlors" },
+  // Add other categories as needed
 ];
 
 export default function SearchFilter({ query }: { query: string }) {
   const [business, setBusiness] = useState<IBusiness[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [category, setCategory] = useState("All"); // Default category
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [address, setAddress] = useState("");
-  const [debouncedAddress, setDebouncedAddress] = useState(address);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedAddress(address);
-    }, 500); // 500ms debounce
-
-    return () => {
-      clearTimeout(handler); // Cleanup timeout on unmount or change
-    };
-  }, [address]);
 
   useEffect(() => {
     const fetchBusiness = async () => {
       const result: IBusiness[] | { error: string } = await getBusiness(query, {
-        category: category === "All" ? "" : category, // Adjust for API call
-        address: debouncedAddress, // Use the debounced value
+        category: selectedCategories.join(","), // Join selected categories for the API call
+        address,
       });
 
       // Handle potential error
@@ -79,10 +87,17 @@ export default function SearchFilter({ query }: { query: string }) {
       setBusiness(result); // Directly set the result if it's an array of IBusiness
     };
 
-    console.log(address, category, debouncedAddress);
-
     fetchBusiness();
-  }, [query, category, debouncedAddress]); // Add debouncedAddress to dependency array
+  }, [query, selectedCategories, address]);
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategories(
+      (prev) =>
+        prev.includes(category)
+          ? prev.filter((c) => c !== category) // Remove if already selected
+          : [...prev, category] // Add if not selected
+    );
+  };
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -90,7 +105,7 @@ export default function SearchFilter({ query }: { query: string }) {
 
   return (
     <div className="flex w-full max-h-[calc(100vh-4rem)]">
-      <div className="flex flex-col bg-white p-4 border-r rounded w-full max-w-[380px] h-full">
+      <div className="flex flex-col bg-white p-4 border-r rounded w-full max-w-[380px] h-full max-h-fit">
         <div className="flex flex-col mx-auto h-full container">
           <div className="flex flex-col">
             <div className="flex justify-between items-center gap-2 py-4">
@@ -101,7 +116,7 @@ export default function SearchFilter({ query }: { query: string }) {
             <Separator />
           </div>
 
-          {/* Location Filter with Debounce */}
+          {/* Location Filter */}
           <div className="flex flex-col">
             <div className="flex justify-between items-center gap-2 py-4">
               <p className="text-lg">Location</p>
@@ -117,20 +132,21 @@ export default function SearchFilter({ query }: { query: string }) {
             <Separator />
           </div>
 
-          {/* Category Filter as Buttons */}
+          {/* Category Filter as Checkboxes */}
           <div className="flex flex-col py-4">
             <p className="text-lg">Category</p>
-            <div className="flex flex-wrap gap-2 py-4">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setCategory(cat)}
-                  className={`p-2 rounded ${
-                    category === cat ? "bg-blue-500 text-white" : "bg-gray-200"
-                  }`}
-                >
-                  {cat}
-                </button>
+            <div className="gap-2 grid grid-cols-1 md:grid-cols-2 py-4">
+              {categories.map(({ label, value }) => (
+                <label key={value} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    value={value}
+                    checked={selectedCategories.includes(value)}
+                    onChange={() => handleCategoryChange(value)}
+                    className="mr-2"
+                  />
+                  {label}
+                </label>
               ))}
             </div>
             <Separator />

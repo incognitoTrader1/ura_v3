@@ -9,7 +9,8 @@
     "lint": "next lint",
     "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.9.6",

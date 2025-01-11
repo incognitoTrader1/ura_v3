@@ -2,8 +2,6 @@
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // uncomment next line if you use Prisma <5.10
-  // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 generator client {
@@ -98,8 +96,18 @@ model Authenticator {
   @@id([userId, credentialID])
 }
 
+// New Category model
+model Category {
+  id         String     @id @default(cuid())
+  name       String     @unique
+  businesses Business[] // Relation to Business model
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Business {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   address     String?
   phone       String?
@@ -109,15 +117,17 @@ model Business {
   hours       String?
   website     String?
   userId      String
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   location    Json?
+  categoryId  String // Foreign key to Category
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   ratings   Rating[]
   products  Product[]
   reviews   Review[]
-  Bookmark  Bookmark[]
+  bookmarks Bookmark[]
 }
 
 model Bookmark {
