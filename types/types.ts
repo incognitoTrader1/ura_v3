@@ -88,3 +88,8 @@ export interface IRating {
   businessId: string;
   // createdAt:
 }
+
+export interface BusinessFilters {
+  category?: string;
+  address?: string;
+}

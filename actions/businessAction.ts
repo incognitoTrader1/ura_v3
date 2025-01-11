@@ -9,6 +9,7 @@ import {
   reviewFormSchema,
   updateBusinessSchema,
 } from "@/schema/zodSchema";
+import { BusinessFilters } from "@/types/types";
 
 export async function getBusinessById(id: string) {
   try {
@@ -26,15 +27,46 @@ export async function getBusinessById(id: string) {
     return { error: "Something went wrong" };
   }
 }
-
-export async function getBusiness() {
+export async function getBusiness(
+  query: string = "",
+  filters: BusinessFilters = {}
+) {
   try {
+    const { category, address } = filters; // Destructure filters
+
     const business = await prisma.business.findMany({
       include: {
         products: true,
       },
       orderBy: {
         createdAt: "desc",
+      },
+      where: {
+        OR: [
+          {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            description: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        ],
+        ...(category && {
+          category: {
+            equals: category, // Filter by category if provided
+          },
+        }),
+        ...(address && {
+          address: {
+            contains: address, // Filter by location if provided
+            mode: "insensitive",
+          },
+        }),
       },
     });
 

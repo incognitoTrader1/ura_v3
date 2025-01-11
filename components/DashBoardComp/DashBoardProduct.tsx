@@ -7,7 +7,7 @@ import PhotoCard from "./PhotoCard";
 import { relativeDateFn } from "@/lib/fn";
 import EllipseMenu from "./EllipseMenu";
 
-interface Business {
+export interface IBusiness {
   id: string;
   name: string;
   userId: string;
@@ -28,14 +28,22 @@ interface Business {
   }[];
 }
 
-interface DashBoardProductProps {
-  business: Business[] | { error: string };
+export interface DashBoardProductProps {
+  business: IBusiness[] | { error: string };
 }
 
 const DashBoardProduct = ({ business }: DashBoardProductProps) => {
   console.log("dashboard business listing", business);
   if ("error" in business) {
     return <div>Error: {business.error}</div>;
+  }
+
+  if (business.length === 0) {
+    return (
+      <div className="flex justify-center items-center text-center text-lg">
+        No businesses found.
+      </div>
+    );
   }
 
   return (
