@@ -10,8 +10,12 @@ function AppNav() {
         <Logo />
         <NavSearch />
       </div>
-      <MobileNav />
-      <UserAvatar />
+      <div className="md:block hidden">
+        <MobileNav />
+      </div>
+      <div className="flex gap-1">
+        <UserAvatar />
+      </div>
     </div>
   );
 }
