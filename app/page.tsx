@@ -1,6 +1,8 @@
 import HomeLinks from "@/components/nav/HomeLinks";
+import HomeSideBar from "@/components/nav/HomeSideBar";
 import Logo from "@/components/shared/Logo";
 import { Button } from "@/components/ui/button";
+
 import {
   SignInButton,
   SignUpButton,
@@ -20,14 +22,14 @@ export default async function Home() {
           <HomeLinks />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="md:flex items-center gap-2 hidden">
           <SignedOut>
-            <Button variant="default" asChild>
+            <Button variant="uraOrange" asChild>
               <SignInButton />
             </Button>
           </SignedOut>
           <SignedOut>
-            <Button variant="secondary" asChild>
+            <Button variant="default" asChild>
               <SignUpButton />
             </Button>
           </SignedOut>
@@ -35,6 +37,7 @@ export default async function Home() {
             <UserButton />
           </SignedIn>
         </div>
+        <HomeSideBar />
       </nav>
       <div
         className={`flex w-full h-full bg-custom-bg bg-cover bg-no-repeat bg-center min-h-dvh`}
