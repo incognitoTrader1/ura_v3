@@ -51,7 +51,7 @@ export default function Sidebar() {
               href={url}
               className={`min-w-max flex items-center space-x-3 px-4 py-2 ${
                 pathname === url
-                  ? "bg-orange-700 font-medium"
+                  ? "bg-orange-500 text-white font-medium"
                   : "text-gray-800 hover:text-gray-500"
               } transition-all duration-300 rounded-md`}
             >

@@ -11,7 +11,7 @@ function UserProfile() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
         <UserAvatar />
-        <div className="md:flex flex-col gap-1 hidden">
+        <div className="lg:flex flex-col gap-1 hidden">
           <p className="font-semibold truncate">{user?.fullName}</p>
           <p className="text-muted-foreground text-xs truncate">
             {user?.emailAddresses[0]?.emailAddress}
