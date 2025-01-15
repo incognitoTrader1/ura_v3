@@ -12,7 +12,30 @@ async function page() {
     return <div>No bookmarks found</div>;
   }
 
-  console.log(bookmarks);
+  console.log("bookmarks in bookmark page: ", bookmarks);
+  if (bookmarks.length === 0) {
+    return (
+      <div className="flex flex-col gap-4 mt-2 mb-2 w-full h-full">
+        <div className="flex justify-between items-center bg-white p-4 border rounded-lg">
+          <h1 className="font-bold text-2xl">Bookmarks</h1>
+        </div>
+
+        <div className="flex flex-col gap-4 mt-2 mb-2 w-full h-full">
+          <div className="flex flex-col gap-4 bg-white p-4 border rounded-lg">
+            <div className="flex flex-col justify-between items-center gap-8">
+              <Image
+                src="/assets/still-empty-bookmark-no-saved-file-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg"
+                alt="Empty_bookmark"
+                width={300}
+                height={300}
+              />
+              <h1 className="font-bold text-2xl">No bookmarks found</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4 mt-2 mb-2 w-full h-full">
