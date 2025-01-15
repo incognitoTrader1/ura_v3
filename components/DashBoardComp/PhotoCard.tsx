@@ -1,5 +1,6 @@
 "use client";
 
+import { formatPrice } from "@/lib/fn";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -30,7 +31,7 @@ export default function PhotoCard({ src, title, price, id }: Props) {
         <h2 className="font-primary font-semibold text-lg capitalize leading-none">
           {title}
         </h2>
-        <p className="font-display">NGN {price}</p>
+        <p className="font-display">NGN {formatPrice(price)}</p>
       </div>
     </div>
   );

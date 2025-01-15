@@ -29,7 +29,20 @@ export async function addProduct(values: z.infer<typeof addProductSchema>) {
       },
     });
 
-    if (business) {
+    console.log("first business:", business);
+
+    // Retrieve the category ID based on the category name
+    let businessCategory = await prisma.category.findUnique({
+      where: { name: category },
+    });
+
+    if (!businessCategory) {
+      businessCategory = await prisma.category.create({
+        data: { name: category },
+      });
+    }
+
+    if (business !== null) {
       const product = await prisma.product.create({
         data: {
           name,
@@ -45,6 +58,7 @@ export async function addProduct(values: z.infer<typeof addProductSchema>) {
         },
       });
 
+      revalidatePath("/dashboard");
       return product;
     }
 
@@ -53,10 +67,11 @@ export async function addProduct(values: z.infer<typeof addProductSchema>) {
       data: {
         name: user.firstName || user.username || "My Business", // Fallback name
         userId: user.id,
-        categoryId: category,
+        categoryId: businessCategory.id,
         imageUrl: user.imageUrl || "",
       },
     });
+    console.log("data for business: ", newBusiness);
 
     const product = await prisma.product.create({
       data: {

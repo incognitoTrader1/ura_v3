@@ -80,7 +80,11 @@ function AddModal({ isOpen, setIsOpen }: AddModalProps) {
 
   async function onSubmit(values: z.infer<typeof addProductSchema>) {
     try {
-      await addProduct(values);
+      console.log(values);
+      const data = await addProduct(values);
+
+      console.log(data);
+
       setIsOpen(false);
       form.reset();
       setImagePreview(null); // Reset image preview
