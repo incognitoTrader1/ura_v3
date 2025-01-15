@@ -41,7 +41,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="top-0 sticky flex flex-col justify-between bg-white p-4 border rounded-lg min-w-min max-h-dvh">
+    <aside className="top-0 sticky flex flex-col justify-between bg-white p-4 border rounded-lg min-w-min h-full max-h-dvh">
       <div className="flex flex-col gap-4">
         <UserProfile />
         <div className="flex flex-col gap-1 md:gap-2 lg:gap-3">
