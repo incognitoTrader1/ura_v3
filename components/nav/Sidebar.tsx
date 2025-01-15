@@ -14,7 +14,7 @@ import { SignedIn } from "@clerk/nextjs";
 import Logout from "../authComp/Logout";
 import UserProfile from "../userAvatar/UserProfile";
 
-const dashboardLinks = [
+export const dashboardLinks = [
   {
     title: "Events",
     url: "/dashboard/events",

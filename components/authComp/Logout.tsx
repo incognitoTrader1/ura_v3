@@ -4,6 +4,7 @@ import { SignedIn, useClerk } from "@clerk/nextjs";
 
 import { Button, buttonVariants } from "../ui/button";
 import { VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
 interface LogoutProps {
   className?: string;
@@ -11,6 +12,7 @@ interface LogoutProps {
   text?: string;
   variant?: VariantProps<typeof buttonVariants>["variant"];
   iconClassName?: string;
+  isSmall?: boolean;
 }
 
 const Logout: React.FC<LogoutProps> = ({
@@ -19,6 +21,7 @@ const Logout: React.FC<LogoutProps> = ({
   text,
   variant,
   iconClassName,
+  isSmall = false,
 }) => {
   const { signOut } = useClerk();
 
@@ -31,7 +34,9 @@ const Logout: React.FC<LogoutProps> = ({
           onClick={() => signOut({ redirectUrl: "/" })}
         >
           {icon && <span className={iconClassName}>{icon}</span>}
-          <p className="lg:block hidden">{text}</p>
+          <p className={cn(isSmall ? "block md:hidden" : "lg:block hidden")}>
+            {text}
+          </p>
         </Button>
       </SignedIn>
     </>
