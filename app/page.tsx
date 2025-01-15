@@ -43,12 +43,12 @@ export default async function Home() {
         className={`flex w-full h-full bg-custom-bg bg-cover bg-no-repeat bg-center min-h-dvh`}
       >
         <div className="flex flex-col justify-center items-center bg-slate-500/20 w-full h-dvh">
-          <div className="flex flex-col justify-center items-center gap-6 w-full h-full">
-            <h1 className="font-bold text-5xl">
+          <div className="flex flex-col justify-center items-center gap-6 px-8 w-full h-full">
+            <h1 className="font-bold text-5xl text-center">
               Welcome to <span className="text-orange-500">Ura</span>, a market
               social
             </h1>
-            <p className="text-2xl text-slate-100">
+            <p className="text-2xl text-center text-slate-100">
               centric platform designed to aid small scale business social media
               business scale
             </p>
