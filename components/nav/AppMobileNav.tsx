@@ -16,7 +16,7 @@ function AppMobileNav() {
           <Link href={nav.href} key={nav.id}>
             <nav.icon
               className={cn(
-                "h-6 w-6 transition duration-300 text-slate-800",
+                "h-8 w-8 transition duration-300 text-slate-800",
                 pathName === nav.href && "text-orange-500 font-bold stroke-4"
               )}
             />
