@@ -33,7 +33,7 @@ export interface DashBoardProductProps {
 }
 
 const DashBoardProduct = ({ business }: DashBoardProductProps) => {
-  console.log("dashboard business listing", business);
+  // console.log("dashboard business listing", business);
   if ("error" in business) {
     return <div>Error: {business.error}</div>;
   }
