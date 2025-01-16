@@ -36,7 +36,11 @@ export async function getBusiness(
 
     const business = await prisma.business.findMany({
       include: {
-        products: true,
+        products: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
         category: true,
       },
       orderBy: {

@@ -96,6 +96,18 @@ export async function addProduct(values: z.infer<typeof addProductSchema>) {
   }
 }
 
+export async function removeProduct(productId: string) {
+  try {
+    const product = await prisma.product.delete({
+      where: { id: productId },
+    });
+    revalidatePath(`/dashboard/products/${productId}`);
+    return product;
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    return { error: "Something went wrong" };
+  }
+}
 export async function getProductById(id: string) {
   try {
     const product = await prisma.product.findUnique({

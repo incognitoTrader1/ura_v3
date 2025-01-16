@@ -73,7 +73,7 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
             <p className="leading-none">We await your patronage.</p>
           </div>
           <div className="gap-3 grid grid-cols-2 lg:grid-cols-3 w-full">
-            {business.products.map((prod) => (
+            {business.products.slice(0, 4).map((prod) => (
               <PhotoCard
                 key={prod.id}
                 price={prod.price}

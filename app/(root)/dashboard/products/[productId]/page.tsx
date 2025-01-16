@@ -12,6 +12,7 @@ import ReviewListing from "@/components/review/ReviewListing";
 import { Review } from "@/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaUser } from "react-icons/fa6";
+import DeleteProductModal from "@/components/modals/DeleteProductModal";
 
 interface Product {
   id: string;
@@ -61,7 +62,7 @@ export default async function page({
 
   const reviews = Array.isArray(product.reviews) ? product.reviews : [];
 
-  console.log(product);
+  const isOwner = user?.id === product.userId;
 
   return (
     <div className="space-y-2 bg-slate-100 w-full h-full overflow-y-auto">
@@ -157,6 +158,7 @@ export default async function page({
           </div>
         </div>
       </div>
+      {isOwner && <DeleteProductModal productId={productId} />}
     </div>
   );
 }
