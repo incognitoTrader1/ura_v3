@@ -28,6 +28,7 @@ import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { Textarea } from "../ui/textarea";
 import EditAvatar from "../modals/EditAvatar";
+import { cn } from "@/lib/utils";
 function BusinessHeader({ business }: { business: IBusiness }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isChange, setIsChange] = useState(false);
@@ -83,8 +84,15 @@ function BusinessHeader({ business }: { business: IBusiness }) {
     <>
       <div className="relative flex flex-col justify-center items-center gap-3 bg-gradient-to-t from-orange-400 to-orange-600 rounded-lg w-full min-h-96">
         <div
-          className="relative hover:border rounded-full w-40 h-40 cursor-pointer overflow-hidden group"
-          onClick={() => setIsChange(!isChange)}
+          className={cn(
+            "rounded-full w-40 h-40",
+            isOwner &&
+              "relative hover:border  cursor-pointer overflow-hidden group"
+          )}
+          onClick={() => {
+            if (!isOwner) return;
+            setIsChange(!isChange);
+          }}
         >
           <Image
             src={business?.imageUrl || ""}
@@ -93,7 +101,14 @@ function BusinessHeader({ business }: { business: IBusiness }) {
             width={500}
             height={500}
           />
-          <div className="group-hover:flex top-0 right-0 bottom-0 left-0 absolute justify-center items-center hidden bg-slate-500/50 w-full h-full">
+          <div
+            className={cn(
+              "flex",
+              !isOwner
+                ? "hidden"
+                : "absolute group-hover:flex top-0 right-0 bottom-0 left-0 justify-center items-center bg-slate-500/50 w-full h-full"
+            )}
+          >
             <p className="font-bold font-primary text-center text-white text-xl">
               Change
             </p>
@@ -102,7 +117,7 @@ function BusinessHeader({ business }: { business: IBusiness }) {
         <EditAvatar
           isChange={isChange}
           setIsChange={setIsChange}
-          businessId={business.userId}
+          businessId={business.id}
         />
         <div className="flex flex-col justify-center items-center gap-1">
           <h2 className="font-bold font-primary text-2xl leading-none">

@@ -222,6 +222,7 @@ export async function reviewBusiness(
     return { error: "Failed to rate business" };
   }
 }
+
 export async function changeImage(
   values: z.infer<typeof ChangeImageSchema>,
   businessId: string
@@ -233,7 +234,6 @@ export async function changeImage(
 
     const business = await prisma.business.findUnique({
       where: { id: businessId },
-      select: { userId: true },
     });
 
     if (!business) return { error: "No business" };
@@ -246,12 +246,6 @@ export async function changeImage(
     }
 
     const { imageUrl } = parsedValues.data;
-
-    console.log(
-      "the image url and business id on the server",
-      imageUrl,
-      businessId
-    );
 
     await prisma.business.update({
       where: { id: businessId },
