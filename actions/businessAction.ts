@@ -5,6 +5,7 @@ import * as z from "zod";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import {
+  ChangeImageSchema,
   rateBusinessSchema,
   reviewFormSchema,
   updateBusinessSchema,
@@ -216,6 +217,55 @@ export async function reviewBusiness(
     revalidatePath(`/dashboard/business/${businessId}`);
 
     return { success: "Review updated", reviewArray };
+  } catch (error) {
+    console.error("Error rating business:", error);
+    return { error: "Failed to rate business" };
+  }
+}
+export async function changeImage(
+  values: z.infer<typeof ChangeImageSchema>,
+  businessId: string
+) {
+  try {
+    const user = await currentUser();
+    if (!user) return { error: "Unauthorized" };
+    if (!businessId) return { error: "No business" };
+
+    const business = await prisma.business.findUnique({
+      where: { id: businessId },
+      select: { userId: true },
+    });
+
+    if (!business) return { error: "No business" };
+
+    if (user.id !== business.userId) return { error: "Unauthorized" };
+
+    const parsedValues = ChangeImageSchema.safeParse(values);
+    if (!parsedValues.success) {
+      return { error: parsedValues.error.errors };
+    }
+
+    const { imageUrl } = parsedValues.data;
+
+    console.log(
+      "the image url and business id on the server",
+      imageUrl,
+      businessId
+    );
+
+    await prisma.business.update({
+      where: { id: businessId },
+      data: { imageUrl },
+    });
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { image: imageUrl },
+    });
+
+    revalidatePath(`/dashboard/business/${businessId}`); // Revalidate the business page to reflect the updated image
+
+    return { success: "Profile updated" };
   } catch (error) {
     console.error("Error rating business:", error);
     return { error: "Failed to rate business" };

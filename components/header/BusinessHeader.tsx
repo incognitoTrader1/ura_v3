@@ -27,8 +27,10 @@ import { updateBusinessSchema } from "@/schema/zodSchema";
 import { useUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { Textarea } from "../ui/textarea";
+import EditAvatar from "../modals/EditAvatar";
 function BusinessHeader({ business }: { business: IBusiness }) {
   const [isEdit, setIsEdit] = useState(false);
+  const [isChange, setIsChange] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { user, isLoaded, isSignedIn } = useUser();
 
@@ -80,12 +82,27 @@ function BusinessHeader({ business }: { business: IBusiness }) {
   return (
     <>
       <div className="relative flex flex-col justify-center items-center gap-3 bg-gradient-to-t from-orange-400 to-orange-600 rounded-lg w-full min-h-96">
-        <Image
-          src={business?.imageUrl || ""}
-          alt={business?.name || ""}
-          className="border-2 border-orange-500 shadow-lg p-1 rounded-full w-40 h-40 object-cover"
-          width={500}
-          height={500}
+        <div
+          className="relative hover:border rounded-full w-40 h-40 cursor-pointer overflow-hidden group"
+          onClick={() => setIsChange(!isChange)}
+        >
+          <Image
+            src={business?.imageUrl || ""}
+            alt={business?.name || ""}
+            className="border-2 border-orange-500 shadow-lg p-1 rounded-full w-40 h-40 object-cover"
+            width={500}
+            height={500}
+          />
+          <div className="group-hover:flex top-0 right-0 bottom-0 left-0 absolute justify-center items-center hidden bg-slate-500/50 w-full h-full">
+            <p className="font-bold font-primary text-center text-white text-xl">
+              Change
+            </p>
+          </div>
+        </div>
+        <EditAvatar
+          isChange={isChange}
+          setIsChange={setIsChange}
+          businessId={business.userId}
         />
         <div className="flex flex-col justify-center items-center gap-1">
           <h2 className="font-bold font-primary text-2xl leading-none">

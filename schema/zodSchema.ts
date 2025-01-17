@@ -37,6 +37,9 @@ export const addProductSchema = z.object({
 export const removeProductSchema = z.object({
   productId: z.string().min(1, { message: "Product Id is required" }),
 });
+export const ChangeImageSchema = z.object({
+  imageUrl: z.string().url({ message: "Invalid image URL" }),
+});
 
 export const messageSchema = z.object({
   content: z
