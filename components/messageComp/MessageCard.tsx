@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Separator } from "../ui/separator";
 import { useRouter } from "next/navigation";
 
-interface MessageCardProps {
+export interface MessageCardProps {
   user: {
     id: string;
     name: string | null;
@@ -28,7 +28,7 @@ const MessageCard = ({ user }: MessageCardProps) => {
   return (
     <>
       <div
-        className="flex gap-3 hover:bg-slate-100 p-4 rounded-lg cursor-pointer"
+        className="flex gap-3 items-start hover:bg-slate-100 p-4 rounded-lg cursor-pointer"
         onClick={() => {
           router.push(`/messages/${user.id}`);
         }}
@@ -36,7 +36,7 @@ const MessageCard = ({ user }: MessageCardProps) => {
         <Image
           src={user.image || "/placeholder.jpg"}
           alt={user.name || "User"}
-          className="rounded-full w-12 h-12 object-fill"
+          className="rounded-full w-8 md:w-12 h-8 md:h-12 object-fill"
           width={40}
           height={40}
         />

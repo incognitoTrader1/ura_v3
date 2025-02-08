@@ -33,12 +33,10 @@ export async function getAUserMessage(receiverId: string) {
   try {
     const user = await currentUser();
 
-    // Check if the user is authenticated
     if (!user) {
       return { error: "Unauthorized" };
     }
 
-    // Fetch the messages between the current user and the specified receiver
     const messages = await prisma.message.findMany({
       where: {
         OR: [
@@ -51,7 +49,7 @@ export async function getAUserMessage(receiverId: string) {
         receiver: true,
       },
       orderBy: {
-        sentAt: "asc", // Sort the messages by sentAt timestamp
+        sentAt: "asc",
       },
     });
 
@@ -80,6 +78,40 @@ export async function sendMessage(
         content,
         senderId: user.id,
         receiverId,
+      },
+    });
+
+    const sendingUser = await prisma.user.findUnique({
+      where: {
+        id: user.id,
+      },
+    });
+
+    const receivingUser = await prisma.user.findUnique({
+      where: {
+        id: receiverId,
+      },
+    });
+
+    if (!sendingUser || !receivingUser) {
+      return { error: "Failed to send message" };
+    }
+
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        sentMessages: {
+          connect: {
+            id: message.id,
+          },
+        },
+        recentlyMessaged: {
+          set: sendingUser.recentlyMessaged.includes(receiverId)
+            ? sendingUser.recentlyMessaged
+            : [receiverId, ...sendingUser.recentlyMessaged],
+        },
       },
     });
 

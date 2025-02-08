@@ -3,7 +3,7 @@
 import prisma from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (query: string = "") => {
   try {
     const user = await currentUser();
 
@@ -16,10 +16,27 @@ export const getAllUsers = async () => {
         sentMessages: true,
         receivedMessages: true,
       },
+      where: {
+        OR: [
+          {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            email: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
     });
 
     return userMsg;
   } catch (error) {
     console.log(error);
+    return { error: "Something went wrong" };
   }
 };
