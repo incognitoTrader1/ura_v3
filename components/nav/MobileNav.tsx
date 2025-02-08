@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { MobileNavIcon } from "@/lib/data";
-import { UserRound } from "lucide-react";
+import { CirclePlus, UserRound } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 
 export default function MobileNav() {
@@ -24,6 +24,7 @@ export default function MobileNav() {
           />
         </Link>
       ))}
+      <CirclePlus className="w-6 h-6 text-slate-200 transition duration-300 cursor-pointer" />
       {isLoaded && isSignedIn && (
         <Link href={`/dashboard/profile/${user?.id}`}>
           <UserRound className="w-6 h-6 text-slate-200 transition duration-300" />
