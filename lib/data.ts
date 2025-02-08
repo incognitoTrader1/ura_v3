@@ -40,10 +40,4 @@ export const HomeNavIcon = [
     label: "Find Business",
     href: "/dashboard",
   },
-  {
-    id: 3,
-    icon: CirclePlus,
-    label: "add",
-    href: "/market",
-  },
 ];

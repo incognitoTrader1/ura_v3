@@ -23,7 +23,7 @@ export default function PhotoCard({ src, title, price, id }: Props) {
       <Image
         src={src}
         alt={title}
-        className="w-full object-cover"
+        className="w-full h-64 md:h-full object-cover"
         width={500}
         height={500}
       />
@@ -31,7 +31,7 @@ export default function PhotoCard({ src, title, price, id }: Props) {
         <h2 className="font-primary font-semibold text-lg capitalize leading-none">
           {title}
         </h2>
-        <p className="font-display">NGN {formatPrice(price)}</p>
+        <p className="font-display">N {formatPrice(price)}</p>
       </div>
     </div>
   );

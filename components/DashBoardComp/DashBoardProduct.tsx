@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import { Button } from "../ui/button";
 import PhotoCard from "./PhotoCard";
-import { relativeDateFn } from "@/lib/fn";
 import EllipseMenu from "./EllipseMenu";
 
 export interface IBusiness {
@@ -12,6 +11,7 @@ export interface IBusiness {
   name: string;
   userId: string;
   address: string | null;
+  description: string | null;
   phone: string | null;
   hours: string | null;
   imageUrl: string | null;
@@ -51,7 +51,7 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
       {business.map((business) => (
         <div key={business.id} className="space-y-3 w-full">
           <div className="flex justify-between">
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-center">
               <Image
                 src={business.imageUrl || ""}
                 alt={business.name}
@@ -59,18 +59,19 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
                 width={500}
                 height={500}
               />
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 ">
                 <h4 className="font-semibold leading-none">{business.name}</h4>
-                <p className="text-slate-500">
+                {/* <p className="text-slate-500">
                   {relativeDateFn(business.createdAt)}
-                </p>
+                </p> */}
               </div>
             </div>
             <EllipseMenu bookmarkId={business.id} />
           </div>
           <div className="flex flex-col gap-1">
-            <p className="leading-none">New collection alert</p>
-            <p className="leading-none">We await your patronage.</p>
+            {business.description && (
+              <p className="leading-none">{business.description}</p>
+            )}
           </div>
           <div className="gap-3 grid grid-cols-2 lg:grid-cols-3 w-full">
             {business.products.slice(0, 4).map((prod) => (

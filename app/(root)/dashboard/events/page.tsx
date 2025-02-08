@@ -12,7 +12,7 @@ function page() {
             width={300}
             height={300}
           />
-          <h1 className="font-bold text-2xl">Nothing is here yet</h1>
+          <h1 className="font-bold text-2xl">Not available to you yet</h1>
           <p className="max-w-prose text-center text-gray-500">
             Project is still in progress, it may not be available yet. Please
             check back later.
