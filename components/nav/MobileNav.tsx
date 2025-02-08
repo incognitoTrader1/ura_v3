@@ -7,10 +7,13 @@ import { cn } from "@/lib/utils";
 import { MobileNavIcon } from "@/lib/data";
 import { CirclePlus, UserRound } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
+import AddModal from "../modals/AddModal";
+import { useState } from "react";
 
 export default function MobileNav() {
   const pathName = usePathname();
   const { user, isLoaded, isSignedIn } = useUser();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="flex items-center gap-8">
@@ -24,12 +27,17 @@ export default function MobileNav() {
           />
         </Link>
       ))}
-      <CirclePlus className="w-6 h-6 text-slate-200 transition duration-300 cursor-pointer" />
+      <CirclePlus
+        className="w-6 h-6 text-slate-200 transition duration-300 cursor-pointer"
+        onClick={() => setIsOpen(true)}
+      />
+
       {isLoaded && isSignedIn && (
         <Link href={`/dashboard/profile/${user?.id}`}>
           <UserRound className="w-6 h-6 text-slate-200 transition duration-300" />
         </Link>
       )}
+      <AddModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
