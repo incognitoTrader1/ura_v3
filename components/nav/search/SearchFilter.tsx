@@ -6,29 +6,11 @@ import { getBusiness } from "@/actions/businessAction";
 import SearchBox from "@/components/nav/SearchBox";
 import { Separator } from "@/components/ui/separator";
 import { Filter, LocateIcon } from "lucide-react";
-import DashBoardProduct from "@/components/DashBoardComp/DashBoardProduct";
+import DashBoardProduct, {
+  IBusiness,
+} from "@/components/DashBoardComp/DashBoardProduct";
 
 // Define the IBusiness interface
-export interface IBusiness {
-  id: string;
-  name: string;
-  userId: string;
-  address: string | null;
-  phone: string | null;
-  hours: string | null;
-  imageUrl: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  products: {
-    imageUrl: string;
-    id: string;
-    price: number;
-    name: string;
-    description: string;
-    businessId: string;
-    userId: string;
-  }[];
-}
 
 // Update the DashBoardProductProps interface
 export interface DashBoardProductProps {

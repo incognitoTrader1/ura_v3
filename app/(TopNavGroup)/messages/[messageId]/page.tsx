@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import React from "react";
 import TopNav from "@/components/nav/TopNav";
 import MessageForm from "@/components/messageComp/MessageForm";

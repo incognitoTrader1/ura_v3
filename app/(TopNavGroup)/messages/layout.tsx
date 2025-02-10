@@ -1,19 +1,24 @@
+import React from "react";
 import { getAllUsers } from "@/actions/userAction";
 import MessageCard from "@/components/messageComp/MessageCard";
 import UserSearch from "@/components/nav/UserSearch";
 import { currentUser } from "@clerk/nextjs/server";
-import React from "react";
+
+import { headers } from "next/headers";
 
 interface LayoutProps {
   children: React.ReactNode;
-  searchParams?: {
-    query?: string;
-  };
+  // searchParams?: {
+  //   query?: string | undefined;
+  // };
 }
 
-export const dynamic = "force-dynamic";
+export default async function Layout({ children }: LayoutProps) {
+  const headerStore = await headers();
+  const searchParams = Object.fromEntries(
+    new URLSearchParams(headerStore.get("searchParams") || "")
+  );
 
-async function Layout({ children, searchParams }: LayoutProps) {
   const query = searchParams?.query || "";
 
   const allUsers = await getAllUsers();
@@ -48,5 +53,3 @@ async function Layout({ children, searchParams }: LayoutProps) {
     </div>
   );
 }
-
-export default Layout;
