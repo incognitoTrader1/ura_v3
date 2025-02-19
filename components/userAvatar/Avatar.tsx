@@ -8,6 +8,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function UserAvatar() {
   const { user } = useUser();
 
+  if (!user) return null; // Return early if user is not logged in yet.
+
   return (
     <>
       {user && (

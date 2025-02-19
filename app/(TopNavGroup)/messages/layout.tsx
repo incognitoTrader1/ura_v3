@@ -39,7 +39,7 @@ export default async function Layout({ children }: LayoutProps) {
   return (
     <div className="flex w-full max-h-[calc(100vh-4rem)] overflow-y-scroll">
       <div className="flex flex-col p-4 border-r rounded max-w-64 md:w-full md:max-w-[380px] h-full">
-        <div className="text-center">
+        <div className="text-center hidden md:block">
           <UserSearch queryString={query} allUsers={allUsers} />
         </div>
 
@@ -49,7 +49,12 @@ export default async function Layout({ children }: LayoutProps) {
           ))}
         </div>
       </div>
-      <div className="relative flex flex-col w-full">{children}</div>
+      <div className="relative flex flex-col w-full">
+        <div className="text-center flex md:hidden w-full">
+          <UserSearch queryString={query} allUsers={allUsers} />
+        </div>
+        {children}
+      </div>
     </div>
   );
 }

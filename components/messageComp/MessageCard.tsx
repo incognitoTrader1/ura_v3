@@ -28,7 +28,7 @@ const MessageCard = ({ user }: MessageCardProps) => {
   return (
     <>
       <div
-        className="flex gap-3 items-start hover:bg-slate-100 p-4 rounded-lg cursor-pointer"
+        className="flex w-full gap-3 items-center md:items-start hover:bg-slate-100 p-1 md:p-4 rounded-lg cursor-pointer"
         onClick={() => {
           router.push(`/messages/${user.id}`);
         }}
@@ -36,7 +36,7 @@ const MessageCard = ({ user }: MessageCardProps) => {
         <Image
           src={user.image || "/placeholder.jpg"}
           alt={user.name || "User"}
-          className="rounded-full w-8 md:w-12 h-8 md:h-12 object-fill"
+          className="rounded-full md:w-12 h-8 md:h-12 w-8 md:object-fill"
           width={40}
           height={40}
         />
@@ -45,7 +45,7 @@ const MessageCard = ({ user }: MessageCardProps) => {
           <p className="truncate">{user.email}</p>
         </div>
       </div>
-      <Separator />
+      <Separator className="hidden md:block" />
     </>
   );
 };

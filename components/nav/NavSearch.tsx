@@ -8,7 +8,8 @@ import { Separator } from "../ui/separator";
 function NavSearch() {
   return (
     <Link href="/search" className="flex justify-between items-center gap-3">
-      <div className="flex justify-between items-center gap-3 bg-gray-100 px-3 py-1.5 rounded-full w-full text-slate-900 cursor-pointer">
+      <Search className="block md:hidden" />
+      <div className="hidden md:flex justify-between items-center gap-3 bg-gray-100 px-3 py-1.5 rounded-full w-full text-slate-900 cursor-pointer">
         <p className="block md:pr-8 text-slate-800 text-sm md:text-base">
           Press to search
         </p>

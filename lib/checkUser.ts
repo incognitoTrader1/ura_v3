@@ -6,7 +6,7 @@ export const checkUser = async () => {
   if (!user) {
     return null;
   }
-  console.log("User:", user);
+  // console.log("User:", user);
   const userInDb = await prisma.user.findUnique({ where: { id: user.id } });
   if (userInDb) {
     console.log("User in db:", userInDb);

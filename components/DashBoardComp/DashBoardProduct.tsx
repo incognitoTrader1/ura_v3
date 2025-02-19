@@ -34,6 +34,9 @@ export interface DashBoardProductProps {
 
 const DashBoardProduct = ({ business }: DashBoardProductProps) => {
   // console.log("dashboard business listing", business);
+
+  // localStorage.setItem("business", business.toLocaleString());
+
   if ("error" in business) {
     return <div>Error: {business.error}</div>;
   }
@@ -45,6 +48,11 @@ const DashBoardProduct = ({ business }: DashBoardProductProps) => {
       </div>
     );
   }
+
+  // const handleViewProfile = (id: string) => {
+  //   // Save the business ID to local storage
+  //   localStorage.setItem("businessId", id);
+  // };
 
   return (
     <div className="flex flex-col gap-12 bg-white p-4 border rounded-lg">

@@ -70,21 +70,21 @@ function UserSearch({ queryString, allUsers }: UserSearchProps) {
   return (
     <div className="flex flex-col">
       <div className="flex justify-between items-center gap-3">
-        <div className="flex justify-between items-center gap-3 bg-white px-3 py-1.5 rounded-full w-full max-w-fit text-slate-900">
+        <div className="flex justify-between items-center gap-3 bg-white px-3 py-1.5 rounded-full w-full text-slate-900">
           <input
             type="text"
-            className="w-48 md:w-full"
+            className="w-full"
             onChange={(e) => handleSearch(e.target.value)}
             placeholder={queryString}
           />
           <Separator
             orientation="vertical"
-            className="bg-slate-800 h-6 text-slate-800 hidden md:block"
+            className="bg-slate-800 h-6 text-slate-800"
           />
-          <Search className="hidden md:block" />
+          <Search />
         </div>
       </div>
-      <div className="flex flex-col max-w-fit">
+      <div className="flex md:flex-col flex-row w-full">
         {searchUsers.map((matchedUser) => (
           <MessageCard key={matchedUser.id} user={matchedUser} />
         ))}

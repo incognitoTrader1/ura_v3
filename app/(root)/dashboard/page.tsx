@@ -8,6 +8,7 @@ async function page() {
   const business = await getBusiness();
 
   console.log("User:", user);
+
   return (
     <div className="space-y-2 bg-slate-100 w-full h-full overflow-y-auto">
       <HomeHeader />

@@ -28,6 +28,21 @@ export async function getBusinessById(id: string) {
     return { error: "Something went wrong" };
   }
 }
+
+export async function getBusinessByUserId() {
+  try {
+    const user = await currentUser();
+    const business = await prisma.business.findFirst({
+      where: { userId: user?.id },
+    });
+
+    return business?.id;
+  } catch (error) {
+    console.error("Error getting user business:", error);
+    return { error: "Something went wrong" };
+  }
+}
+
 export async function getBusiness(
   query: string = "",
   filters: BusinessFilters = {}

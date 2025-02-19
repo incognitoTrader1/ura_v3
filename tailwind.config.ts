@@ -11,7 +11,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        "custom-bg": "url('/assets/bgImage.svg')",
+        "custom-bg":
+          "url('https://draftss.com/wp-content/uploads/2022/12/Top-5-Landing-Page-Best-Practices-2023.png')",
       },
       colors: {
         background: "hsl(var(--background))",

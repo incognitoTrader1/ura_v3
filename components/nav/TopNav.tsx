@@ -78,9 +78,30 @@ export default function TopNav({ title }: Props) {
       </div>
     );
   }
+  if (pathname === "/messages") {
+    return (
+      <div className="top-0 sticky flex flex-col bg-[#FB5404] p-5 text-white">
+        <div className="flex justify-between items-center gap-16">
+          <div className="flex justify-between items-center gap-3 bg-white p-3 rounded-xl w-full text-slate-900">
+            <input
+              type="text"
+              className="w-full"
+              placeholder="search messages"
+            />
+            <Separator
+              orientation="vertical"
+              className="bg-slate-800 h-6 text-slate-800"
+            />
+            <Search />
+          </div>
+          <EllipsisVertical />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <nav className="top-0 sticky flex justify-between items-center bg-orange-500 p-5 text-white">
+    <nav className="top-0 sticky hidden md:flex justify-between items-center bg-orange-500 p-5 text-white">
       <ChevronLeft
         size={28}
         className="text-white cursor-pointer"

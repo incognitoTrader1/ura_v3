@@ -1,18 +1,15 @@
-"use client";
-
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
 import { cn } from "@/lib/utils";
 import { MobileNavIcon } from "@/lib/data";
-import { CirclePlus, UserRound } from "lucide-react";
-import { useUser } from "@clerk/nextjs";
+import { CirclePlus } from "lucide-react";
+// import { useUser } from "@clerk/nextjs";
 import AddModal from "../modals/AddModal";
 import { useState } from "react";
 
 export default function MobileNav() {
   const pathName = usePathname();
-  const { user, isLoaded, isSignedIn } = useUser();
+  // const { isLoaded, isSignedIn } = useUser();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -32,11 +29,11 @@ export default function MobileNav() {
         onClick={() => setIsOpen(true)}
       />
 
-      {isLoaded && isSignedIn && (
-        <Link href={`/dashboard/profile/${user?.id}`}>
+      {/* {isLoaded && isSignedIn && businessId && (
+        <Link href={`/dashboard/business/${businessId}`}>
           <UserRound className="w-6 h-6 text-slate-200 transition duration-300" />
         </Link>
-      )}
+      )} */}
       <AddModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );

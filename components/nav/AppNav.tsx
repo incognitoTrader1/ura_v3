@@ -59,6 +59,7 @@ function AppNav() {
                     <p className="block">{title}</p>
                   </Link>
                 ))}
+                {/* <NavSearch /> */}
               </div>
 
               <div className="flex flex-col gap-3">
