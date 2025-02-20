@@ -1,6 +1,6 @@
 "use client";
 
-import { Edit, Loader2, MessageCircle } from "lucide-react";
+import { Edit, ExternalLink, Loader2, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -29,11 +29,16 @@ import { redirect } from "next/navigation";
 import { Textarea } from "../ui/textarea";
 import EditAvatar from "../modals/EditAvatar";
 import { cn } from "@/lib/utils";
+import { ShareDialog } from "../shared/ShareDialog";
 function BusinessHeader({ business }: { business: IBusiness }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isChange, setIsChange] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { user, isLoaded, isSignedIn } = useUser();
+  const [isDialogOpen, setDialogOpen] = useState(false);
+
+  const openDialog = () => setDialogOpen(true);
+  const closeDialog = () => setDialogOpen(false);
 
   const form = useForm<z.infer<typeof updateBusinessSchema>>({
     resolver: zodResolver(updateBusinessSchema),
@@ -153,11 +158,18 @@ function BusinessHeader({ business }: { business: IBusiness }) {
             }}
           />
         )}
-        {!isOwner && (
-          <Link href={`/messages/${business?.userId}`}>
-            <MessageCircle className="top-5 right-5 absolute text-white" />
-          </Link>
-        )}
+        <div className="top-5 right-5 absolute flex gap-5 items-center">
+          <ExternalLink
+            className="text-white cursor-pointer"
+            onClick={openDialog}
+          />
+          <ShareDialog isOpen={isDialogOpen} onClose={closeDialog} />
+          {!isOwner && (
+            <Link href={`/messages/${business?.userId}`}>
+              <MessageCircle className="text-white" />
+            </Link>
+          )}
+        </div>
       </div>
       <Dialog open={isEdit} onOpenChange={setIsEdit}>
         <DialogContent className="w-full">

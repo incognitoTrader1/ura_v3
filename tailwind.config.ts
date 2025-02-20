@@ -12,7 +12,7 @@ export default {
     extend: {
       backgroundImage: {
         "custom-bg":
-          "url('https://draftss.com/wp-content/uploads/2022/12/Top-5-Landing-Page-Best-Practices-2023.png')",
+          "url('https://img.freepik.com/free-vector/group-various-people-with-different-ethnicity_1284-62782.jpg?t=st=1740044612~exp=1740048212~hmac=8f827f90b30552b3eb4298402370bf3d53cfb72283b03eec96f061cfd3c88761&w=1380')",
       },
       colors: {
         background: "hsl(var(--background))",
