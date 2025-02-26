@@ -6,7 +6,7 @@ function layout({ children }: { children: React.ReactNode }) {
     <section className="flex flex-col gap-2">
       <AppNav />
       {children}
-      <div className="relative">
+      <div className="relative pt-12">
         <AppMobileNav />
       </div>
     </section>
