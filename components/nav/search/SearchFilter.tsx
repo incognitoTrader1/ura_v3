@@ -1,23 +1,21 @@
-"use client"; // Make this a Client Component
+"use client";
 
 import { useEffect, useState } from "react";
 import { getBusiness } from "@/actions/businessAction";
 
 import SearchBox from "@/components/nav/SearchBox";
 import { Separator } from "@/components/ui/separator";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
 import { Filter, LocateIcon } from "lucide-react";
 import DashBoardProduct, {
   IBusiness,
 } from "@/components/DashBoardComp/DashBoardProduct";
 
-// Define the IBusiness interface
-
-// Update the DashBoardProductProps interface
 export interface DashBoardProductProps {
   business: IBusiness[] | { error: string };
 }
 
-// Define categories from the document
 export const categories = [
   { label: "Jollof Rice", value: "jollof_rice" },
   { label: "Amala & Ewedu", value: "amala_ewedu" },
@@ -87,7 +85,7 @@ export default function SearchFilter({ query }: { query: string }) {
 
   return (
     <div className="flex w-full max-h-[calc(100vh-4rem)]">
-      <div className="flex flex-col bg-white p-4 border-r rounded w-full max-w-[380px] h-full max-h-fit">
+      <div className="hidden md:flex flex-col bg-white p-4 border-r rounded w-full max-w-[380px] h-full max-h-fit">
         <div className="flex flex-col mx-auto h-full container">
           <div className="flex flex-col">
             <div className="flex justify-between items-center gap-2 py-4">
@@ -117,7 +115,7 @@ export default function SearchFilter({ query }: { query: string }) {
           {/* Category Filter as Checkboxes */}
           <div className="flex flex-col py-4">
             <p className="text-lg">Category</p>
-            <div className="gap-2 grid grid-cols-1 md:grid-cols-2 py-4">
+            <div className="gap-2 grid grid-cols-2 py-4">
               {categories.map(({ label, value }) => (
                 <label key={value} className="flex items-center">
                   <input
@@ -138,7 +136,57 @@ export default function SearchFilter({ query }: { query: string }) {
 
       <div className="relative flex flex-col w-full">
         <div className="flex flex-col h-full">
-          <SearchBox queryString={query} />
+          <div className="hidden md:flex w-full px-4">
+            <SearchBox queryString={query} />
+          </div>
+          <div className="flex md:hidden justify-between w-full gap-5 p-2">
+            <SearchBox queryString={query} />
+            <Sheet>
+              <SheetTrigger>
+                <Filter />
+              </SheetTrigger>
+              <SheetContent>
+                <div className="flex md:hidden flex-col bg-white p-2 w-full h-full">
+                  <div className="flex flex-col mx-auto h-full container">
+                    {/* Location Filter */}
+                    <div className="flex flex-col">
+                      <div className="flex flex-col gap-2 py-4">
+                        <p className="text-lg">Location</p>
+                        <input
+                          type="text"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          placeholder="Enter location"
+                          className="p-1 border rounded"
+                        />
+                      </div>
+                      <Separator />
+                    </div>
+
+                    {/* Category Filter as Checkboxes */}
+                    <div className="flex flex-col py-4">
+                      <p className="text-lg">Category</p>
+                      <div className="gap-2 flex flex-col py-4">
+                        {categories.map(({ label, value }) => (
+                          <label key={value} className="flex items-center">
+                            <input
+                              type="checkbox"
+                              value={value}
+                              checked={selectedCategories.includes(value)}
+                              onChange={() => handleCategoryChange(value)}
+                              className="mr-2"
+                            />
+                            {label}
+                          </label>
+                        ))}
+                      </div>
+                      <Separator />
+                    </div>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
           {query && business.length > 0 && (
             <DashBoardProduct business={business} />
           )}

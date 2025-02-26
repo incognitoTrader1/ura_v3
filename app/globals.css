@@ -148,3 +148,14 @@ body {
     background: rgba(255, 178, 71, 0.13);
   }
 }
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

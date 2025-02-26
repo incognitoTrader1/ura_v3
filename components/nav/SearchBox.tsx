@@ -21,7 +21,7 @@ function SearchBox({ queryString }: { queryString: string }) {
   }, 500);
 
   return (
-    <div className="flex justify-between items-center gap-3">
+    <div className="flex justify-between items-center gap-3 w-full">
       <div className="flex justify-between items-center gap-3 bg-white px-3 py-1.5 rounded-full w-full text-slate-900">
         <input
           type="text"
