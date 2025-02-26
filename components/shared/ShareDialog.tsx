@@ -65,7 +65,7 @@ export function ShareDialog({ isOpen, onClose }: ShareDialogProps) {
           <Button variant="uraOrange" onClick={copyToClipboard}>
             {copySuccess ? "Copied!" : "Copy URL"}
           </Button>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Button
               variant="uraOrange"
               onClick={() => shareOnSocialMedia("twitter")}

@@ -150,15 +150,15 @@ function BusinessHeader({ business }: { business: IBusiness }) {
           </p>
         </div>
 
-        {isOwner && (
-          <Edit
-            className="top-5 right-5 absolute"
-            onClick={() => {
-              setIsEdit(!isEdit);
-            }}
-          />
-        )}
         <div className="top-5 right-5 absolute flex gap-5 items-center">
+          {isOwner && (
+            <Edit
+              className="top-5 right-5 absolute"
+              onClick={() => {
+                setIsEdit(!isEdit);
+              }}
+            />
+          )}
           <ExternalLink
             className="text-white cursor-pointer"
             onClick={openDialog}
