@@ -7,11 +7,18 @@ const isPublicRoute = createRouteMatcher([
   "/dashboard(.*)",
 ]);
 
-export default clerkMiddleware(async (auth, request) => {
-  if (!isPublicRoute(request)) {
-    await auth.protect();
-  }
-});
+const isClerkEnabled = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+export default isClerkEnabled
+  ? clerkMiddleware(async (auth, request) => {
+      if (!isPublicRoute(request)) {
+        await auth.protect();
+      }
+    })
+  : (req) => {
+      console.log("Clerk is disabled. Skipping authentication.");
+      return new Response(null, { status: 200 });
+    };
 
 export const config = {
   matcher: [
