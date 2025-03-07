@@ -21,23 +21,26 @@ export const metadata: Metadata = {
     "A centric platform designed to aid small scale business social media business scale",
 };
 
+// Check if Clerk is enabled
+const isClerkEnabled = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          {/* <NavBar /> */}
-          {children}
-          {/* <Footer /> */}
-          <Toaster />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {isClerkEnabled ? (
+          <ClerkProvider>{children}</ClerkProvider>
+        ) : (
+          children
+        )}
+        <Toaster />
+      </body>
+    </html>
   );
 }
