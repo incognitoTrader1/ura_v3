@@ -16,33 +16,52 @@ export interface DashBoardProductProps {
   business: IBusiness[] | { error: string };
 }
 
-export const categories = [
-  { label: "Jollof Rice", value: "jollof_rice" },
-  { label: "Amala & Ewedu", value: "amala_ewedu" },
-  { label: "Egusi Soup", value: "egusi_soup" },
-  { label: "Grilled Fish", value: "grilled_fish" },
-  { label: "Shawarma", value: "shawarma" },
-  { label: "Pizza", value: "pizza" },
-  { label: "Burgers", value: "burgers" },
-  { label: "Suya", value: "suya" },
-  { label: "Ice Cream", value: "ice_cream" },
-  { label: "Bakeries", value: "bakeries" },
-  { label: "Nigerian Cuisine", value: "nigerian_cuisine" },
-  { label: "Continental Cuisine", value: "continental_cuisine" },
-  { label: "Chinese Cuisine", value: "chinese_cuisine" },
-  { label: "Indian Cuisine", value: "indian_cuisine" },
-  { label: "Fast Food", value: "fast_food" },
-  { label: "Vegetarian", value: "vegetarian" },
-  { label: "Vegan", value: "vegan" },
-  { label: "Fine Dining", value: "fine_dining" },
-  { label: "Casual Dining", value: "casual_dining" },
-  { label: "Fast Casual", value: "fast_casual" },
-  { label: "Street Food", value: "street_food" },
-  { label: "Cafes", value: "cafe" },
-  { label: "Bars", value: "bar" },
-  { label: "Ice Cream Parlors", value: "ice_cream_parlors" },
-  // Add other categories as needed
+// Utility function to transform categories
+const transformCategories = (
+  categories: string[]
+): { label: string; value: string }[] => {
+  return categories.map((category) => ({
+    label: category,
+    value: category
+      .toLowerCase()
+      .replace(/ & /g, "_")
+      .replace(/ /g, "_")
+      .replace(/'/g, "")
+      .replace(/,/g, "")
+      .replace(/-/g, "_"),
+  }));
+};
+
+// Define your category array
+const categoryArr = [
+  "Restaurants",
+  "Food Vendors",
+  "Bakeries",
+  "Shopping",
+  "Fashion Designers",
+  "Clothing & Shoes",
+  "Fashion Accessories",
+  "Beauty and Wellness",
+  "Home decor",
+  "Handy Job",
+  "Healthcare & vet",
+  "Entertainment & Recreation",
+  "Education",
+  "Hotels & Airbnb",
+  "Accommodations",
+  "Farms & food",
+  "Transportation",
+  "Studios",
+  "Professional Services",
+  "Auto mobile",
+  "Crypto and Gift Card Vendors",
+  "Nightlife",
+  "Events",
+  "Others",
 ];
+
+// Export the categories as a constant
+export const categories = transformCategories(categoryArr);
 
 export default function SearchFilter({ query }: { query: string }) {
   const [business, setBusiness] = useState<IBusiness[]>([]);
@@ -57,7 +76,6 @@ export default function SearchFilter({ query }: { query: string }) {
         address,
       });
 
-      // Handle potential error
       if ("error" in result) {
         console.error(result.error);
         setError(result.error);
