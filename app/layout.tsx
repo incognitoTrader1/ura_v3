@@ -23,18 +23,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-
-        
-          {/* <NavBar /> */}
           {children}
-          {/* <Footer /> */}
           <Toaster />
         </body>
       </html>
